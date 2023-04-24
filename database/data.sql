@@ -1,3 +1,5 @@
+USE WatchOurMovieDB;
+
 INSERT INTO User (first_name, last_name, email, birth_date, password, is_admin)
 VALUES
 ('John', 'Doe', 'john.doe@example.com', '1985-05-10', 'password123', FALSE),

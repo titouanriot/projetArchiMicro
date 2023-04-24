@@ -7,9 +7,8 @@ services:
     restart: always
     environment:
       MYSQL_DATABASE: 'WatchOurMovieDB'
-      MYSQL_USER: 'user'
-      MYSQL_PASSWORD: 'password'
-      MYSQL_ROOT_PASSWORD: 'password'
+    env_file:
+      - .env
     ports:
       - '3306:3306'
     expose:
@@ -21,8 +20,13 @@ services:
   app:
     image: angular/frontend
     build: ./frontend
-    command: "npm run start -- --host=0.0.0.0 --port=8080 --prod=true"
+    command: "npm run start -- --host=0.0.0.0 --port=8080 --configuration 'production' "
     ports:
       - 8080:8080
+  back:
+    image: fastapi/backend
+    build: ./backend
+    ports:
+      - 8000:8000
 volumes:
   db:

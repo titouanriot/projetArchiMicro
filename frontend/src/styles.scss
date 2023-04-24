@@ -8,30 +8,52 @@
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
 @include mat.core();
+@import "app/common/footer/footer.component";
 
+@mixin custom-components-theme($theme) {
+  @include sidenav-theme($theme);
+}
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$frontend-primary: mat.define-palette(mat.$indigo-palette);
-$frontend-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$frontend-primary: mat.define-palette(mat.$red-palette, A700);
+$frontend-accent-light: mat.define-palette(mat.$grey-palette, 50);
+$frontend-accent-dark: mat.define-palette(mat.$grey-palette, 800, 700, 900);
 
 // The warn palette is optional (defaults to red).
 $frontend-warn: mat.define-palette(mat.$red-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$frontend-theme: mat.define-light-theme((
+$frontend-default-theme: mat.define-light-theme((
   color: (
     primary: $frontend-primary,
-    accent: $frontend-accent,
+    accent: $frontend-accent-light,
     warn: $frontend-warn,
   )
 ));
 
+
+$frontend-dark-theme: mat.define-dark-theme((
+  color: (
+    primary: $frontend-primary,
+    accent: $frontend-accent-dark,
+    warn: $frontend-warn,
+  )
+));
+
+.darkMode {
+  @include mat.all-component-colors($frontend-dark-theme);
+  background-color: black;
+}
+
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include mat.all-component-themes($frontend-theme);
+.lightMode {
+  @include mat.all-component-themes($frontend-default-theme);
+}
+
 
 /* You can add global styles to this file, and also import other style files */
 

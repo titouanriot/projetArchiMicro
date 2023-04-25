@@ -31,7 +31,7 @@ You can start the frontend Service with the command `ng serve` in the same folde
 ### Backend
 
 Requirements : Python 3.10 with FastAPI, and Uvicorn.
-To Launch it, go on the backend folder and execute `uvicorn app.main:app --port 8000` (if you do not have the packages installed, you can start the .venv).
+To Launch it, go on the backend folder and execute `uvicorn app.main:app --port 8000 --reload` (if you do not have the packages installed, you can start the .venv).
 Accessible at `http://localhost:8000`.
 
 

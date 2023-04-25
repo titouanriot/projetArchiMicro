@@ -1,11 +1,17 @@
 from fastapi import FastAPI
 from app.api.endpoints import main
+from app.api.endpoints import user
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
+from app.database import engine
+from app.models import userSchema
 app = FastAPI()
 
 app.include_router(main.router)
+app.include_router(user.router)
+
+userSchema.Base.metadata.create_all(bind=engine)
 
 origins = [
     "http://localhost"
@@ -18,6 +24,8 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
+
+#change help section
 help = [
     { 
         "method" : "POST",
@@ -57,9 +65,8 @@ help = [
 async def root():
     """
         Get the Root of the project
-        Describe the functionalities of the API
     """
-    return {"title": "Welcome on our Wine API Quality Prediction",
+    return {"title": "Welcome on WatchOurMovie API",
             "Informations" : "Please check the following content to know how to use the different functionalities of the app",
             "Access to the Docs" : "http://localhost/docs",
             "help" : help}

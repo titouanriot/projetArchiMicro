@@ -1,22 +1,18 @@
-import { Component, HostBinding, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, HostBinding } from '@angular/core';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent{
 
   title = 'WatchOurMovie';
 
-  toggleControl = new FormControl(false);
-  @HostBinding('class') className = 'lightMode';
+  isConnected = true;
+  isAdmin = true;
 
-  ngOnInit() : void {
-    this.toggleControl.valueChanges.subscribe(val => {
-      this.className = val ? 'darkMode' : 'lightMode';
-    })
-  }
+  @HostBinding('class') className = 'darkMode';
+
 
 }

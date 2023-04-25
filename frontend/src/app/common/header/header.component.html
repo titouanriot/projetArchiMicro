@@ -1,8 +1,48 @@
 <mat-toolbar color="accent">
     <h3 class="red">{{title}}</h3>
     <span class="spacer"></span>
-    <mat-icon class="mr-8">brightness_5</mat-icon>
-    <mat-slide-toggle [formControl]="toggleControl" class="mr-8">
-    </mat-slide-toggle>
-    <mat-icon class="mr-8">bedtime</mat-icon>
+    <!-- retour menu -->
+    <button mat-fab extended color="primary">
+    <mat-icon>home</mat-icon>
+        Accueil
+    </button>
+
+    <!-- if not connected -->
+    <span *ngIf="!isConnected; else elseBlock">
+        <button mat-fab extended color="primary">
+            <mat-icon>person</mat-icon>
+                Connexion
+        </button>
+        <button mat-fab extended color="primary">
+            <mat-icon>person_add</mat-icon>
+                Inscription
+        </button> 
+    </span>
+    
+     <!-- if connected -->
+    <ng-template #elseBlock>
+        <button mat-fab extended color="primary">
+            <mat-icon>groups</mat-icon>
+                Groupes
+        </button>
+        
+        <button mat-fab extended color="primary">
+            <mat-icon>manage_accounts</mat-icon>
+                Compte
+        </button>
+
+        <!-- if admin -->
+        <span *ngIf="isAdmin">
+            <button mat-fab extended color="primary">
+                <mat-icon>admin_panel_settings</mat-icon>
+                    Administration
+            </button>
+        </span>
+    
+        <button mat-fab extended color="primary">
+            <mat-icon>input</mat-icon>
+                Déconnexion
+        </button>
+    </ng-template>    
+
 </mat-toolbar>

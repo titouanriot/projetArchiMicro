@@ -44,7 +44,7 @@ $frontend-dark-theme: mat.define-dark-theme((
 
 .darkMode {
   @include mat.all-component-colors($frontend-dark-theme);
-  background-color: black;
+  // background-color: black;
 }
 
 // Include theme styles for core and each component used in your app.

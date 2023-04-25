@@ -6,15 +6,26 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
-import { AngularMaterialModule } from './angular-material.module';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatButtonModule} from '@angular/material/button';
+import {MatListModule} from '@angular/material/list';
+
 import { HeaderComponent } from './common/header/header.component';
 import { FooterComponent } from './common/footer/footer.component';
+import { CguComponent } from './pages/infos/cgu/cgu.component';
+import { ContactsComponent } from './pages/infos/contacts/contacts.component';
+import { PresentationComponent } from './pages/infos/presentation/presentation.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    CguComponent,
+    ContactsComponent,
+    PresentationComponent
   ],
   imports: [
     BrowserModule,
@@ -22,7 +33,11 @@ import { FooterComponent } from './common/footer/footer.component';
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    AngularMaterialModule
+    MatToolbarModule,
+    MatIconModule,
+    MatSlideToggleModule,
+    MatButtonModule,
+    MatListModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

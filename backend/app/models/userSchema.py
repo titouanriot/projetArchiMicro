@@ -5,7 +5,7 @@ from sqlalchemy.orm import Mapped, relationship, mapped_column, DeclarativeBase
 class Base(DeclarativeBase):
     pass
 
-class User(Base):
+class UserSchema(Base):
     __tablename__ = "User"
     id_user = Column(Integer, primary_key=True, index=True)
     first_name = Column(String(100))

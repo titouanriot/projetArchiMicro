@@ -12,6 +12,7 @@ class UserService:
     def get_user_by_email(self, email : str, db : Session):
         item = db.query(UserSchema).filter_by(email=email).first()
         pydantic_user = UserBase.from_orm(item)
+        return pydantic_user
     
     def get_all_users(self, db : Session):
         try : 
@@ -28,7 +29,6 @@ class UserService:
         doesExist = db.query(exists().where(UserSchema.email == email)).scalar()
         return doesExist
 
-
     def createUser(self, new_user : UserBase, db : Session):
         try:
             if not self.checkIfExists(new_user.email, db) :
@@ -40,4 +40,33 @@ class UserService:
                 return {'Error' : 'This user does already exist'}
         except SQLAlchemyError as e:
             db.rollback()
+            return {'result' : 'An error occured'}
+    
+    def delete_user(self, email : str, db : Session):
+        try:
+            if self.checkIfExists(email, db) :
+                user_db = db.query(UserSchema).filter_by(email=email).first()
+                db.delete(user_db)
+                db.commit()
+                return {'result' : 'User Deleted'}
+            else:
+                return {'Error' : 'This user does not exist'}
+        except SQLAlchemyError as e:
+            db.rollback()
+            print(str(e))
+            return {'result' : 'An error occured'}
+        
+    def update_user(self, user : UserBase, db : Session):
+        try:
+            if self.checkIfExists(user.email, db) :
+                user_db = db.query(UserSchema).filter_by(email=user.email).first()
+                for key, value in user.dict().items():
+                    setattr(user_db, key, value)
+                db.commit()
+                return {'result' : 'User updated'}
+            else:
+                return {'Error' : 'This user does not exist'}
+        except SQLAlchemyError as e:
+            db.rollback()
+            print(str(e))
             return {'result' : 'An error occured'}

@@ -45,3 +45,12 @@ async def add_user(new_user : UserBase, db : Session = Depends(get_db)):
         Add a user in the database
     """
     return service.createUser(new_user, db)
+
+
+@router.delete("/delete_user")
+async def delete_user(email : str, db : Session = Depends(get_db)):
+    return service.delete_user(email, db)
+
+@router.post("/update_user")
+async def update_user(user : UserBase, db : Session = Depends(get_db)):
+    return service.update_user(user, db)

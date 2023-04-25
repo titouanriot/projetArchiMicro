@@ -24,9 +24,12 @@ mat-card-content {
     padding: 30px;
 }
 
+mat-hint {
+    color: red;
+}
+
 .error {
     padding: 16px;
-    width: 300px;
     color: white;
     background-color: red;
 }

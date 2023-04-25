@@ -1,0 +1,20 @@
+section {
+    padding: 30px;
+}
+
+p {
+    padding: 30px;
+}
+
+:host {
+    display: flex;
+    justify-content: center;
+    // margin: 100px 0px;
+}
+
+mat-card-title,
+mat-card-content {
+    display: flex;
+    justify-content: center;
+    padding: 30px;
+}

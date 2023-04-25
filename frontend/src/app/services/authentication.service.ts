@@ -22,7 +22,7 @@ export class AuthenticationService {
   public getUserValue() {
     return this.userSubject.value;
   }
-
+ 
 
   login(username: string, password: string) {
     let user = {
@@ -35,8 +35,10 @@ export class AuthenticationService {
       localStorage.setItem('user', JSON.stringify(user));
       this.userSubject.next(user);
       this.router.navigateByUrl("/cgu");
+      return 'ok';
     } else {
-      this.router.navigateByUrl('/');
+      this.router.navigateByUrl('/connexion');
+      return 'error';
     }
 
   }
@@ -45,7 +47,7 @@ export class AuthenticationService {
   logout() {
     localStorage.removeItem('user');
     this.userSubject.next(null);
-    this.router.navigateByUrl('/');
+    this.router.navigateByUrl('/connexion');
   }
 
 }

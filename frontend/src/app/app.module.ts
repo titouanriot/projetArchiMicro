@@ -21,6 +21,7 @@ import { CguComponent } from './pages/infos/cgu/cgu.component';
 import { ContactsComponent } from './pages/infos/contacts/contacts.component';
 import { PresentationComponent } from './pages/infos/presentation/presentation.component';
 import { ConnexionComponent } from './pages/authentification/connexion/connexion.component';
+import { Erreur404Component } from './pages/infos/erreur404/erreur404.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { ConnexionComponent } from './pages/authentification/connexion/connexion
     CguComponent,
     ContactsComponent,
     PresentationComponent,
-    ConnexionComponent
+    ConnexionComponent,
+    Erreur404Component
   ],
   imports: [
     BrowserModule,

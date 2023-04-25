@@ -12,6 +12,8 @@ export class ConnexionComponent {
 
   user:Id = {username: '', password: ''};
 
+  error:boolean = false;
+
   constructor(
     private router: Router,
     private authService: AuthenticationService
@@ -19,7 +21,7 @@ export class ConnexionComponent {
 
 
   onSubmit() {
-    this.authService.login(this.user.username, this.user.password);
+    this.error = (this.authService.login(this.user.username, this.user.password) == 'error');
   }
 
 

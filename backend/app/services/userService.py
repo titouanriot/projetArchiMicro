@@ -1,5 +1,6 @@
 from app.models.userModel import UserBase, User
 from app.models.userSchema import UserSchema
+from app.models.preferencesSchema import PreferencesSchema
 from sqlalchemy.orm import Session
 from sqlalchemy import exists
 from sqlalchemy.exc import SQLAlchemyError
@@ -11,6 +12,11 @@ class UserService:
 
     def get_user_by_email(self, email : str, db : Session):
         item = db.query(UserSchema).filter_by(email=email).first()
+        pydantic_user = UserBase.from_orm(item)
+        return pydantic_user
+    
+    def get_user_by_id(self, id : int, db : Session):
+        item = db.query(UserSchema).filter_by(id_user=id).first()
         pydantic_user = UserBase.from_orm(item)
         return pydantic_user
     
@@ -27,6 +33,10 @@ class UserService:
 
     def checkIfExists(self, email : str, db : Session):
         doesExist = db.query(exists().where(UserSchema.email == email)).scalar()
+        return doesExist
+    
+    def checkIfExists(self, id : int, db : Session):
+        doesExist = db.query(exists().where(UserSchema.id_user == id)).scalar()
         return doesExist
 
     def createUser(self, new_user : UserBase, db : Session):
@@ -64,6 +74,30 @@ class UserService:
                     setattr(user_db, key, value)
                 db.commit()
                 return {'result' : 'User updated'}
+            else:
+                return {'Error' : 'This user does not exist'}
+        except SQLAlchemyError as e:
+            db.rollback()
+            print(str(e))
+            return {'result' : 'An error occured'}
+        
+    def has_preferences(self, user : UserBase, db : Session):
+        try : 
+            if self.checkIfExists(user.email, db) :
+                user_db = db.query(UserSchema).filter_by(email=user.email).first()
+                return (db.query(exists().where(PreferencesSchema.id_user == user_db.id_user)).scalar())
+            else:
+                return {'Error' : 'This user does not exist'}
+        except SQLAlchemyError as e:
+            db.rollback()
+            print(str(e))
+            return {'result' : 'An error occured'}
+        
+    def has_preferences(self, id : int, db : Session):
+        try : 
+            if self.checkIfExists(id, db) :
+                user_db = db.query(UserSchema).filter_by(id_user=id).first()
+                return (db.query(exists().where(PreferencesSchema.id_user == user_db.id_user)).scalar())
             else:
                 return {'Error' : 'This user does not exist'}
         except SQLAlchemyError as e:

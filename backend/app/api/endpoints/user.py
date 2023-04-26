@@ -46,7 +46,6 @@ async def add_user(new_user : UserBase, db : Session = Depends(get_db)):
     """
     return service.createUser(new_user, db)
 
-
 @router.delete("/delete_user")
 async def delete_user(email : str, db : Session = Depends(get_db)):
     return service.delete_user(email, db)
@@ -54,3 +53,11 @@ async def delete_user(email : str, db : Session = Depends(get_db)):
 @router.post("/update_user")
 async def update_user(user : UserBase, db : Session = Depends(get_db)):
     return service.update_user(user, db)
+
+@router.post("/has_preferences")
+async def has_preferences(user : UserBase, db : Session = Depends(get_db)):
+    return service.has_preferences(user,db)
+
+@router.get("/has_preferences")
+async def has_preferences(id : int, db : Session = Depends(get_db)):
+    return service.has_preferences(id,db)

@@ -48,12 +48,9 @@ export class InscriptionComponent implements OnInit{
 
   get f() { return this.form.controls; }
 
-
-
   onSubmit() {
     let output = this.form.value;
     output.birthdate = output.birthdate.format('YYYY-MM-DD');
-
     this.authService.register(output);
     this.router.navigateByUrl('/connexion');
   }

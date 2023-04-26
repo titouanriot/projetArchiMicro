@@ -13,7 +13,7 @@ import { FooterComponent } from './common/footer/footer.component';
 import { CguComponent } from './pages/infos/cgu/cgu.component';
 import { ContactsComponent } from './pages/infos/contacts/contacts.component';
 import { PresentationComponent } from './pages/infos/presentation/presentation.component';
-import { ConnexionComponent } from './pages/authentification/connexion/connexion.component';
+import { ConnexionComponent } from './pages/authentication/connexion/connexion.component';
 import { Erreur404Component } from './pages/infos/erreur404/erreur404.component';
 import { InscriptionComponent } from './pages/authentication/inscription/inscription.component';
 import { PreferencesComponent } from './pages/preferences/preferences.component';

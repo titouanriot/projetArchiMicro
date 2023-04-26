@@ -6,17 +6,13 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatIconModule} from '@angular/material/icon';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {MatButtonModule} from '@angular/material/button';
-import {MatListModule} from '@angular/material/list';
-
 import { HeaderComponent } from './common/header/header.component';
 import { FooterComponent } from './common/footer/footer.component';
 import { CguComponent } from './pages/infos/cgu/cgu.component';
 import { ContactsComponent } from './pages/infos/contacts/contacts.component';
 import { PresentationComponent } from './pages/infos/presentation/presentation.component';
+import { AngularMaterialModule } from './angular-material.module';
+import { FunctionalitiesRoutingModule } from './functionalities/functionalities-routing.module';
 
 @NgModule({
   declarations: [
@@ -25,7 +21,7 @@ import { PresentationComponent } from './pages/infos/presentation/presentation.c
     FooterComponent,
     CguComponent,
     ContactsComponent,
-    PresentationComponent
+    PresentationComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,11 +29,8 @@ import { PresentationComponent } from './pages/infos/presentation/presentation.c
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatSlideToggleModule,
-    MatButtonModule,
-    MatListModule,
+    AngularMaterialModule,
+    FunctionalitiesRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -27,13 +27,28 @@ INSERT INTO Director (director_name) VALUES
 ('Francis Ford Coppola'),
 ('Sidney Lumet');
 
+
+/* TABLE OK: tous les genres de TMDB renseignés */
 INSERT INTO Genre (genre_name) VALUES
-('drame'),
-('action'),
-('thriller'),
-('crime'),
-('romance'),
-('science-fiction');
+(28, 'Action'),
+(12, 'Aventure'),
+(16, 'Animation'),
+(35, 'Comédie'),
+(80, 'Crime'),
+(99, 'Documentaire'),
+(18, 'Drame'),
+(10751, 'Familial'),
+(14, 'Fantastique'),
+(36, 'Histoire'),
+(27, 'Horreur'),
+(10402, 'Musique'),
+(9648, 'Mystère'),
+(10749, 'Romance'),
+(878, 'Science-Fiction'),
+(10770, 'Téléfilm'),
+(53, 'Thriller'),
+(10752, 'Guerre'),
+(37, 'Western');
 
 INSERT INTO BelongTo (id_user, id_group) VALUES
 (1,1),
@@ -64,14 +79,14 @@ INSERT INTO DirectedBy (id_director, id_movie) VALUES
 (5,5);
 
 INSERT INTO HasGenre (id_genre, id_movie) VALUES
-(1,1),
-(2,2),
-(3,3),
-(1,4),
-(1,5),
-(4,4),
-(1,6),
-(5,2);
+(18,1),
+(28,2),
+(53,3),
+(18,4),
+(18,5),
+(80,4),
+(18,6),
+(10749,2);
 
 INSERT INTO Logs (id_user, date, action) VALUES
 (1, '2022-04-20 13:30:00', 'Logged in'),
@@ -80,9 +95,9 @@ INSERT INTO Logs (id_user, date, action) VALUES
 (1, '2022-04-23 11:00:00', 'Logged out');
 
 INSERT INTO Preferences (id_user, id_genre) VALUES 
-(1, 1),
-(1, 2),
-(2, 1),
-(2, 3),
-(3, 2),
-(3, 3);
+(1, 18),
+(1, 28),
+(2, 18),
+(2, 53),
+(3, 28),
+(3, 53);

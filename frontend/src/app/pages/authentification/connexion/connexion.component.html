@@ -1,0 +1,26 @@
+<section>
+    <mat-card>
+        <mat-card-title>Connexion</mat-card-title>
+        <mat-card-content>
+            <form (ngSubmit)="onSubmit()" #f="ngForm">
+                <p>
+                    <mat-form-field appearance="fill">
+                        <input name="id" #ctrlId="ngModel" [(ngModel)]='user.username' type="text" matInput placeholder="Identifiant" required>
+                        <mat-hint *ngIf="ctrlId.touched && ctrlId.invalid">Ce champ est requis</mat-hint>
+                    </mat-form-field>
+                </p>
+
+                <p>
+                    <mat-form-field appearance="fill">
+                        <input name="passe" #ctrlPasse="ngModel" [(ngModel)]='user.password' type="password" matInput placeholder="Mot de passe" required>
+                        <mat-hint *ngIf="ctrlPasse.touched && ctrlPasse.invalid">Ce champ est requis</mat-hint>
+                    </mat-form-field>
+                </p>
+                <p *ngIf="error" class="error">Username ou mot de passe invalide</p>
+                <div class="button">
+                    <button type="submit" [disabled]="f.invalid" mat-button>Se connecter</button>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</section>

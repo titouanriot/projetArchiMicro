@@ -1,5 +1,5 @@
 <mat-toolbar color="accent">
-    <h3 class="red">{{title}}</h3>
+    <div class="red">{{title}}</div>
     <span class="spacer"></span>
     <!-- retour menu -->
     <button mat-fab extended color="primary">
@@ -9,11 +9,11 @@
 
     <!-- if not connected -->
     <span *ngIf="!isConnected; else elseBlock">
-        <button mat-fab extended color="primary">
+        <button mat-fab extended color="primary" routerLink="/connexion">
             <mat-icon>person</mat-icon>
                 Connexion
         </button>
-        <button mat-fab extended color="primary">
+        <button mat-fab extended color="primary" routerLink="/inscription">
             <mat-icon>person_add</mat-icon>
                 Inscription
         </button> 
@@ -21,7 +21,7 @@
     
      <!-- if connected -->
     <ng-template #elseBlock>
-        <button mat-fab extended color="primary">
+        <button mat-fab extended color="primary">   
             <mat-icon>groups</mat-icon>
                 Groupes
         </button>
@@ -39,7 +39,7 @@
             </button>
         </span>
     
-        <button mat-fab extended color="primary">
+        <button (click)="disconnect()" mat-fab extended color="primary">
             <mat-icon>input</mat-icon>
                 Déconnexion
         </button>

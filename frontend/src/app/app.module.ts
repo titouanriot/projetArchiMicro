@@ -14,6 +14,9 @@ import {MatListModule} from '@angular/material/list';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatCardModule} from '@angular/material/card'
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MomentDateModule } from '@angular/material-moment-adapter';
 
 import { HeaderComponent } from './common/header/header.component';
 import { FooterComponent } from './common/footer/footer.component';
@@ -22,6 +25,7 @@ import { ContactsComponent } from './pages/infos/contacts/contacts.component';
 import { PresentationComponent } from './pages/infos/presentation/presentation.component';
 import { ConnexionComponent } from './pages/authentification/connexion/connexion.component';
 import { Erreur404Component } from './pages/infos/erreur404/erreur404.component';
+import { InscriptionComponent } from './pages/authentication/inscription/inscription.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +36,8 @@ import { Erreur404Component } from './pages/infos/erreur404/erreur404.component'
     ContactsComponent,
     PresentationComponent,
     ConnexionComponent,
-    Erreur404Component
+    Erreur404Component,
+    InscriptionComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,6 +53,9 @@ import { Erreur404Component } from './pages/infos/erreur404/erreur404.component'
     MatFormFieldModule,
     MatInputModule,
     MatCardModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MomentDateModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

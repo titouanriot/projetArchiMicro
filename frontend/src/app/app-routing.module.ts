@@ -5,13 +5,15 @@ import { ContactsComponent } from './pages/infos/contacts/contacts.component';
 import { PresentationComponent } from './pages/infos/presentation/presentation.component';
 import { ConnexionComponent } from './pages/authentification/connexion/connexion.component';
 import { Erreur404Component } from './pages/infos/erreur404/erreur404.component';
+import { InscriptionComponent } from './pages/authentication/inscription/inscription.component';
 
 const routes: Routes = [
   {path: "", component: ConnexionComponent},
   {path: "connexion", component: ConnexionComponent},
-  {path: "cgu", component: CguComponent},
-  {path: "contacts", component: ContactsComponent},
-  {path: "presentation", component: PresentationComponent},
+  {path: "inscription", component: InscriptionComponent},
+  {path: "infos/cgu", component: CguComponent},
+  {path: "infos/contacts", component: ContactsComponent},
+  {path: "infos/presentation", component: PresentationComponent},
   {path: "**", component: Erreur404Component},
 ];
 

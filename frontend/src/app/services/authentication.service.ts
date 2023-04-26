@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../models/user';
 import { Router } from '@angular/router';
+import { Account } from '../models/account';
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +35,7 @@ export class AuthenticationService {
     if (username == 'toto' && password == 'toto123') {
       localStorage.setItem('user', JSON.stringify(user));
       this.userSubject.next(user);
-      this.router.navigateByUrl("/cgu");
+      this.router.navigateByUrl("/infos/cgu");
       return 'ok';
     } else {
       this.router.navigateByUrl('/connexion');
@@ -49,5 +50,13 @@ export class AuthenticationService {
     this.userSubject.next(null);
     this.router.navigateByUrl('/connexion');
   }
+
+
+  register(account: Account) {
+    console.log(account);
+  }
+
+
+
 
 }

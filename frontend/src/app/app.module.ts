@@ -11,12 +11,15 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatButtonModule} from '@angular/material/button';
 import {MatListModule} from '@angular/material/list';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+
 
 import { HeaderComponent } from './common/header/header.component';
 import { FooterComponent } from './common/footer/footer.component';
 import { CguComponent } from './pages/infos/cgu/cgu.component';
 import { ContactsComponent } from './pages/infos/contacts/contacts.component';
 import { PresentationComponent } from './pages/infos/presentation/presentation.component';
+import { PreferencesComponent } from './pages/preferences/preferences.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,8 @@ import { PresentationComponent } from './pages/infos/presentation/presentation.c
     FooterComponent,
     CguComponent,
     ContactsComponent,
-    PresentationComponent
+    PresentationComponent,
+    PreferencesComponent
   ],
   imports: [
     BrowserModule,
@@ -38,6 +42,7 @@ import { PresentationComponent } from './pages/infos/presentation/presentation.c
     MatSlideToggleModule,
     MatButtonModule,
     MatListModule,
+    MatCheckboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]

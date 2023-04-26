@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from app.services.userService import UserService
 from app.database import SessionLocal
 from sqlalchemy.orm import Session
@@ -37,7 +37,7 @@ async def get_by_email(email : str, db : Session = Depends(get_db)):
         pydantic_user = UserBase.from_orm(item)
         return {'response' : pydantic_user}
     else:
-        return {'Error' : 'This user does not exist'}
+        raise HTTPException(status_code=404, detail="This user does not exist")
 
 @router.post("/add_user")
 async def add_user(new_user : UserBase, db : Session = Depends(get_db)):

@@ -13,7 +13,8 @@ userSchema.Base.metadata.create_all(bind=engine)
 preferencesSchema.Base.metadata.create_all(bind=engine)
 
 origins = [
-    "http://localhost"
+    "http://localhost",
+    "http://localhost:4200"
 ]
 
 app.add_middleware(

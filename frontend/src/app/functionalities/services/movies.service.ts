@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { CategoryE, LanguageE, Movie } from '../models/movie';
-import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'

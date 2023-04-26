@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 from app.models.userModel import UserBase, User
 from app.models.userSchema import UserSchema
 from app.models.preferencesSchema import PreferencesSchema
@@ -26,9 +27,9 @@ class UserService:
             if users : 
                 return users
             else : 
-                return {'result' : 'No user found'}
+                raise HTTPException(status_code=404, detail="This user does not exist")
         except SQLAlchemyError as e:
-            return {'result' : 'An error occured'}
+            raise HTTPException(status_code=500, detail="An error occured")
 
 
     def checkIfExists(self, email : str, db : Session):
@@ -47,10 +48,10 @@ class UserService:
                 db.commit()
                 return {'result' : 'User Created'}
             else:
-                return {'Error' : 'This user does already exist'}
+                raise HTTPException(status_code=404, detail="This user already exist")
         except SQLAlchemyError as e:
             db.rollback()
-            return {'result' : 'An error occured'}
+            raise HTTPException(status_code=500, detail="An error occured")
     
     def delete_user(self, email : str, db : Session):
         try:
@@ -60,11 +61,11 @@ class UserService:
                 db.commit()
                 return {'result' : 'User Deleted'}
             else:
-                return {'Error' : 'This user does not exist'}
+                raise HTTPException(status_code=404, detail="This user does not exist")
         except SQLAlchemyError as e:
             db.rollback()
             print(str(e))
-            return {'result' : 'An error occured'}
+            raise HTTPException(status_code=500, detail="An error occured")
         
     def update_user(self, user : UserBase, db : Session):
         try:
@@ -75,11 +76,11 @@ class UserService:
                 db.commit()
                 return {'result' : 'User updated'}
             else:
-                return {'Error' : 'This user does not exist'}
+                raise HTTPException(status_code=404, detail="This user does not exist")
         except SQLAlchemyError as e:
             db.rollback()
             print(str(e))
-            return {'result' : 'An error occured'}
+            raise HTTPException(status_code=500, detail="An error occured")
         
     def has_preferences(self, user : UserBase, db : Session):
         try : 
@@ -87,11 +88,11 @@ class UserService:
                 user_db = db.query(UserSchema).filter_by(email=user.email).first()
                 return (db.query(exists().where(PreferencesSchema.id_user == user_db.id_user)).scalar())
             else:
-                return {'Error' : 'This user does not exist'}
+                raise HTTPException(status_code=404, detail="This user does not exist")
         except SQLAlchemyError as e:
             db.rollback()
             print(str(e))
-            return {'result' : 'An error occured'}
+            raise HTTPException(status_code=500, detail="An error occured")
         
     def has_preferences(self, id : int, db : Session):
         try : 
@@ -99,8 +100,8 @@ class UserService:
                 user_db = db.query(UserSchema).filter_by(id_user=id).first()
                 return (db.query(exists().where(PreferencesSchema.id_user == user_db.id_user)).scalar())
             else:
-                return {'Error' : 'This user does not exist'}
+                raise HTTPException(status_code=404, detail="This user does not exist")
         except SQLAlchemyError as e:
             db.rollback()
             print(str(e))
-            return {'result' : 'An error occured'}
+            raise HTTPException(status_code=500, detail="An error occured")

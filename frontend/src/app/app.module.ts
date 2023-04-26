@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,7 +15,7 @@ import { CguComponent } from './pages/infos/cgu/cgu.component';
 import { ContactsComponent } from './pages/infos/contacts/contacts.component';
 import { PresentationComponent } from './pages/infos/presentation/presentation.component';
 import { ConnexionComponent } from './pages/authentication/connexion/connexion.component';
-import { Erreur404Component } from './pages/infos/erreur404/erreur404.component';
+import { Erreur404Component } from './common/erreur404/erreur404.component';
 import { InscriptionComponent } from './pages/authentication/inscription/inscription.component';
 import { PreferencesComponent } from './pages/preferences/preferences.component';
 
@@ -40,7 +41,8 @@ import { AngularMaterialModule } from './angular-material.module';
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    MomentDateModule
+    MomentDateModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

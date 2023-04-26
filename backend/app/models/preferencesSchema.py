@@ -1,8 +1,7 @@
 from sqlalchemy import ForeignKey, PrimaryKeyConstraint
 from sqlalchemy.schema import Column
-from sqlalchemy.types import String, Integer, Boolean, Date
+from sqlalchemy.types import Integer
 from sqlalchemy.orm import DeclarativeBase
-from app.models import userSchema
 
 class Base(DeclarativeBase):
     pass

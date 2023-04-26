@@ -4,6 +4,8 @@ import { AngularMaterialModule } from '../angular-material.module';
 import { ContainerComponent } from './common/container/container.component';
 import { ListMoviesComponent } from './movies/list-movies/list-movies.component';
 import { FunctionalitiesRoutingModule } from './functionalities-routing.module';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
     declarations : [
@@ -14,7 +16,8 @@ import { FunctionalitiesRoutingModule } from './functionalities-routing.module';
     imports : [
         CommonModule,
         AngularMaterialModule,
-        FunctionalitiesRoutingModule
+        FunctionalitiesRoutingModule,
+        HttpClientModule
     ],
     providers: [],
     bootstrap : []

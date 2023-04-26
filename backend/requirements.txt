@@ -1,2 +1,6 @@
 uvicorn
 fastapi
+sqlalchemy 
+mysql-connector-python
+python-multipart
+python-dotenv

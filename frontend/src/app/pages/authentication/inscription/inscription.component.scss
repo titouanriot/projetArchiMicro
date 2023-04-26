@@ -1,0 +1,44 @@
+section {
+    padding: 30px;
+}
+
+p {
+    padding: 10px;
+}
+
+:host {
+    display: flex;
+    justify-content: center;
+    margin: 50px 0px;
+}
+
+mat-form-field {
+    width: 100%;
+    min-width: 600px;
+}
+
+mat-card-title,
+mat-card-content {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+
+mat-hint {
+    color: red;
+}
+
+.info {
+    padding: 0 16px;
+}
+
+.error {
+    padding: 16px;
+    color: white;
+    background-color: red;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+}

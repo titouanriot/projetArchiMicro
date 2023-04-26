@@ -1,4 +1,5 @@
 import { Component, HostBinding } from '@angular/core';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-header',
@@ -8,11 +9,20 @@ import { Component, HostBinding } from '@angular/core';
 export class HeaderComponent{
 
   title = 'WatchOurMovie';
+  isConnected = false;
 
-  isConnected = true;
+  constructor(
+    private authService: AuthenticationService
+  ) {
+    this.authService.user.subscribe(u => this.isConnected = (u != null))
+  }
+
   isAdmin = true;
 
   @HostBinding('class') className = 'darkMode';
 
+  disconnect() {
+    this.authService.logout()
+  }
 
 }

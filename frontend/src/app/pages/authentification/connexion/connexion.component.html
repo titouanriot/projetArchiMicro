@@ -5,7 +5,7 @@
             <form (ngSubmit)="onSubmit()" #f="ngForm">
                 <p>
                     <mat-form-field appearance="fill">
-                        <input name="id" #ctrlId="ngModel" [(ngModel)]='user.username' type="text" matInput placeholder="Identifiant" required>
+                        <input name="email" #ctrlId="ngModel" [(ngModel)]='user.email' type="email" matInput placeholder="E-mail" required>
                         <mat-hint *ngIf="ctrlId.touched && ctrlId.invalid">Ce champ est requis</mat-hint>
                     </mat-form-field>
                 </p>
@@ -16,7 +16,7 @@
                         <mat-hint *ngIf="ctrlPasse.touched && ctrlPasse.invalid">Ce champ est requis</mat-hint>
                     </mat-form-field>
                 </p>
-                <p *ngIf="error" class="error">Username ou mot de passe invalide</p>
+                <p *ngIf="error" class="error">E-mail ou mot de passe invalide</p>
                 <div class="button">
                     <button type="submit" [disabled]="f.invalid" mat-button>Se connecter</button>
                 </div>

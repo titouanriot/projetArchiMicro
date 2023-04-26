@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from app.api.endpoints import user
+from app.api.endpoints import auth
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
@@ -8,11 +9,12 @@ from app.models import userSchema
 app = FastAPI()
 
 app.include_router(user.router)
+app.include_router(auth.router)
 
 userSchema.Base.metadata.create_all(bind=engine)
 
 origins = [
-    "http://localhost"
+    "http://localhost:4200"
 ]
 
 app.add_middleware(

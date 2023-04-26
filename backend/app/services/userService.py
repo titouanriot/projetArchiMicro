@@ -11,6 +11,13 @@ class UserService:
 
     def get_user_by_email(self, email : str, db : Session):
         item = db.query(UserSchema).filter_by(email=email).first()
+        if item:
+            pydantic_user = UserBase.from_orm(item)
+            return pydantic_user
+        return None
+
+    def get_user(self, username: str, db : Session):
+        item = db.query(UserSchema).filter_by(username=username).first()
         pydantic_user = UserBase.from_orm(item)
         return pydantic_user
     

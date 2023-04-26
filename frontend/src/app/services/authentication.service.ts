@@ -1,8 +1,12 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../models/user';
 import { Router } from '@angular/router';
 import { Account } from '../models/account';
+import { map } from 'rxjs/operators';
+
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +17,8 @@ export class AuthenticationService {
   public user: Observable<User | null>;
 
   constructor(
-    private router: Router
+    private router: Router,
+    private http: HttpClient
   ) { 
     this.userSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('user')!));
     this.user = this.userSubject.asObservable();
@@ -25,22 +30,15 @@ export class AuthenticationService {
   }
  
 
-  login(username: string, password: string) {
-    let user = {
-      username: 'toto',
-      id: 1234,
-      token: "lolololo"
-    }
+  login(email: string, password: string) {
 
-    if (username == 'toto' && password == 'toto123') {
-      localStorage.setItem('user', JSON.stringify(user));
-      this.userSubject.next(user);
-      this.router.navigateByUrl("/infos/cgu");
-      return 'ok';
-    } else {
-      this.router.navigateByUrl('/connexion');
-      return 'error';
-    }
+    return this.http.post<any>(`${environment.apiUrl}/auth/login`, {email, password}).pipe(map(
+      user => {
+        localStorage.setItem('user', JSON.stringify(user));
+        this.userSubject.next(user);
+        return user;
+      }
+    ));
 
   }
 

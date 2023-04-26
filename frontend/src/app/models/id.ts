@@ -1,4 +1,4 @@
 export interface Id {
-    username: string,
+    email: string,
     password: string
 }

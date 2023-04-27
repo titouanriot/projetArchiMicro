@@ -17,7 +17,7 @@ export class HasPreferenciesGuard implements CanActivate {
   connectedUser:User | null = null;
 
   async canActivate(): Promise<boolean> {
-    if (await this.userService.has_preferences(Number(this.connectedUser?.id))){
+    if (await this.userService.has_preferences(this.connectedUser!.email)){
       return true;
     }
     else {

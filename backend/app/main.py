@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from app.api.endpoints import user
+from app.api.endpoints import auth
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
@@ -8,6 +9,7 @@ from app.models import userSchema, preferencesSchema
 app = FastAPI()
 
 app.include_router(user.router)
+app.include_router(auth.router)
 
 userSchema.Base.metadata.create_all(bind=engine)
 preferencesSchema.Base.metadata.create_all(bind=engine)

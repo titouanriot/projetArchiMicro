@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { HTTP_INTERCEPTORS} from '@angular/common/http';
 
 import { MomentDateModule } from '@angular/material-moment-adapter';
 
@@ -17,6 +18,8 @@ import { PresentationComponent } from './pages/infos/presentation/presentation.c
 import { ConnexionComponent } from './pages/authentication/connexion/connexion.component';
 import { Erreur404Component } from './common/erreur404/erreur404.component';
 import { InscriptionComponent } from './pages/authentication/inscription/inscription.component';
+import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { PreferencesComponent } from './pages/preferences/preferences.component';
 
 import { AngularMaterialModule } from './angular-material.module';
@@ -38,13 +41,17 @@ import { AngularMaterialModule } from './angular-material.module';
     AngularMaterialModule,
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
     MomentDateModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -14,9 +14,9 @@ export class UserService {
     this.api_url = environment.backendBaseUrl;
   }
 
-  async has_preferences(id : number) : Promise<boolean> {
+  async has_preferences(email : string) : Promise<boolean> {
     const promise = new Promise<boolean>((resolve, reject) => {
-      let params = new HttpParams().set("id",id)
+      let params = new HttpParams().set("email", encodeURIComponent(email))
       this.http.get<boolean>(this.api_url + this.user_endpoint + "/has_preferences",{params : params}).subscribe({
         next: (res : boolean) => {
           console.log("has preferencies");

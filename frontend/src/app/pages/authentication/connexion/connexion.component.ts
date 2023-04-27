@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { first } from 'rxjs';
 import { Id } from 'src/app/models/id';
+import { User } from 'src/app/models/user';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
@@ -9,7 +10,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
   templateUrl: './connexion.component.html',
   styleUrls: ['./connexion.component.scss']
 })
-export class ConnexionComponent {
+export class ConnexionComponent implements OnInit{
 
   user:Id = {email: '', password: ''};
 
@@ -18,7 +19,15 @@ export class ConnexionComponent {
   constructor(
     private router: Router,
     private authService: AuthenticationService
-  ) {}
+  ) {this.authService.user.subscribe(u => this.connectedUser = u)}
+
+  connectedUser: User | null = null;
+
+  ngOnInit(): void {
+    if (this.connectedUser != null) {
+      this.router.navigateByUrl("/infos/cgu")
+    }
+  }
 
 
   onSubmit() {

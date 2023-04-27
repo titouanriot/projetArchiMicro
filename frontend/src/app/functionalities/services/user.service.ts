@@ -39,16 +39,12 @@ export class UserService {
 
   async setPreferences(genres : Array<Genre>){
     const promise = new Promise<boolean>((resolve, reject) => {
-      //let params = new HttpParams().set("email", encodeURIComponent(email))
-      //let genres_formatted = genres.
       let params = {
-        //'id' : this.connectedUser?.email,
-        'genres' : genres
+        'email' : this.connectedUser?.email,
+        'genres' : JSON.parse(JSON.stringify(genres))
       }
       this.http.post<boolean>(this.api_url + this.user_endpoint + "/set_preferences",params).subscribe({
         next: (res : boolean) => {
-          console.log("set preferencies");
-          console.log(res)
           resolve(res);
         },
         error : (err : any) => {

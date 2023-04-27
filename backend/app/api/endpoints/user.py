@@ -1,5 +1,5 @@
-from typing import List
-from fastapi import APIRouter, Depends, HTTPException, status
+from typing import Annotated, List
+from fastapi import APIRouter, Body, Depends, HTTPException, status
 from app.services.userService import UserService
 from app.database import SessionLocal
 from sqlalchemy.orm import Session
@@ -96,9 +96,7 @@ async def has_preferences(email : str, db : Session = Depends(get_db)):
 async def has_preferences_by_id(id : int, db : Session = Depends(get_db)):
     return service.has_preferences_by_id(id,db)
 
-@router.post("/set_preferences") #email : str,
-async def set_preferences( genres : List[GenresBase], db : Session = Depends(get_db)):
-    #mail: str = unquote(email)
-    #print(mail)
-    print(genres)
-    return {"result" : "ok"}
+@router.post("/set_preferences")
+async def set_preferences(email : Annotated[str, Body()], genres : List[GenresBase], db : Session = Depends(get_db)):
+    mail: str = unquote(email)
+    return service.set_preferences(mail, genres, db)

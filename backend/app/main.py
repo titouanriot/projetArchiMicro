@@ -14,7 +14,8 @@ preferencesSchema.Base.metadata.create_all(bind=engine)
 
 origins = [
     "http://localhost",
-    "http://localhost:4200"
+    "http://localhost:4200",
+    "http://localhost:8080"
 ]
 
 app.add_middleware(

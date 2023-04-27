@@ -1,22 +1,23 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
+import { CanActivate, Router } from '@angular/router';
 import { UserService } from '../services/user.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
+import { User } from 'src/app/models/user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HasPreferenciesGuard implements CanActivate {
 
-  constructor(private userService : UserService, private _router: Router){}
+  constructor(private userService : UserService, private _router: Router,
+    private authService : AuthenticationService){
+      this.authService.user.subscribe(u => this.connectedUser = u);
+    }
 
-  //get connected user
-  connectedUser = 7;
+  connectedUser:User | null = null;
 
   async canActivate(): Promise<boolean> {
-    console.log("coucou guard !!")
-    console.log(await this.userService.has_preferences(this.connectedUser));
-    if (await this.userService.has_preferences(this.connectedUser)){
+    if (await this.userService.has_preferences(Number(this.connectedUser?.id))){
       return true;
     }
     else {

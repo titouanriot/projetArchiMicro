@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from app.models.userModel import UserBase, User
 from app.models.userSchema import UserSchema
 from sqlalchemy.exc import SQLAlchemyError
+from urllib.parse import unquote
 
 """
     Describe the parameters of this api file
@@ -37,7 +38,7 @@ async def get_by_email(email : str, db : Session = Depends(get_db)):
         pydantic_user = UserBase.from_orm(item)
         return {'response' : pydantic_user}
     else:
-        return {'Error' : 'This user does not exist'}
+        raise HTTPException(status_code=404, detail="This user does not exist")
 
 
 
@@ -54,19 +55,20 @@ async def add_user(new_user : UserBase, db : Session = Depends(get_db)):
     """
         Add a user in the database
     """
-    result = service.createUser(new_user, db)
-    if 'result' in result.keys():
-        return new_user
-    else:
-        if result['Error'] == 'This user does already exist':
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="User already exists"
-            )
-        else:
-            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    service.createUser(new_user, db)
+    return new_user
+    # result = service.createUser(new_user, db)
+    # if 'result' in result.keys():
+    #     return new_user
+    # else:
+    #     if result['Error'] == 'This user does already exist':
+    #         raise HTTPException(
+    #             status_code=status.HTTP_400_BAD_REQUEST,
+    #             detail="User already exists"
+    #         )
+    #     else:
+    #         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
-
 
 
 
@@ -77,3 +79,16 @@ async def delete_user(email : str, db : Session = Depends(get_db)):
 @router.post("/update_user")
 async def update_user(user : UserBase, db : Session = Depends(get_db)):
     return service.update_user(user, db)
+
+@router.post("/has_preferences")
+async def has_preferences(user : UserBase, db : Session = Depends(get_db)):
+    return service.has_preferences(user,db)
+
+@router.get("/has_preferences")
+async def has_preferences(email : str, db : Session = Depends(get_db)):
+    mail: str = unquote(email)
+    return service.has_preferences(mail,db)
+
+@router.get("/has_preferences")
+async def has_preferences_by_id(id : int, db : Session = Depends(get_db)):
+    return service.has_preferences_by_id(id,db)

@@ -8,12 +8,17 @@ Thanks for having download our APP, and we hope you will enjoy to use it and sha
 You MUST have a Docker version installed on your machine.
 At the root of the project (same location as the docker-compose.yml file), you must create a file called `.env` in which you have to put the different information inside : 
 
-MYSQL_USER=[USER]
+MYSQL_HOST=[host] 
+
+MYSQL_USER=[user]
 
 MYSQL_PASSWORD=[password]
 
 MYSQL_ROOT_PASSWORD=[password]
 
+MYSQL_DATABASE='NameDB'
+
+Note that the host has to bethe name of the mysql container.
 After that, you just got to execute the command `docker-compose up` inside the project.
 The app can be accessed at your `http://localhost:8080`.
 
@@ -31,6 +36,15 @@ You can start the frontend Service with the command `ng serve` in the same folde
 ### Backend
 
 Requirements : Python 3.10 with FastAPI, and Uvicorn.
+You need first to create a file '.env' inside the app folder containing :
+
+MYSQL_USER=[user]
+
+MYSQL_PASSWORD=[password]
+
+MYSQL_ROOT_PASSWORD=[password]
+
+
 To Launch it, go on the backend folder and execute `uvicorn app.main:app --port 8000 --reload` (if you do not have the packages installed, you can start the .venv).
 Accessible at `http://localhost:8000`.
 

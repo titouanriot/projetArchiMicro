@@ -1,3 +1,4 @@
+from typing import List
 from fastapi import APIRouter, Depends, HTTPException, status
 from app.services.userService import UserService
 from app.database import SessionLocal
@@ -6,6 +7,8 @@ from app.models.userModel import UserBase, User
 from app.models.userSchema import UserSchema
 from sqlalchemy.exc import SQLAlchemyError
 from urllib.parse import unquote
+
+from app.models.genresModel import GenresBase
 
 """
     Describe the parameters of this api file
@@ -92,3 +95,10 @@ async def has_preferences(email : str, db : Session = Depends(get_db)):
 @router.get("/has_preferences")
 async def has_preferences_by_id(id : int, db : Session = Depends(get_db)):
     return service.has_preferences_by_id(id,db)
+
+@router.post("/set_preferences") #email : str,
+async def set_preferences( genres : List[GenresBase], db : Session = Depends(get_db)):
+    #mail: str = unquote(email)
+    #print(mail)
+    print(genres)
+    return {"result" : "ok"}

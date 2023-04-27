@@ -20,7 +20,7 @@ import { Erreur404Component } from './common/erreur404/erreur404.component';
 import { InscriptionComponent } from './pages/authentication/inscription/inscription.component';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
-import { PreferencesComponent } from './pages/preferences/preferences.component';
+import { PreferencesComponent } from './functionalities/preferences/preferences.component';
 
 import { AngularMaterialModule } from './angular-material.module';
 

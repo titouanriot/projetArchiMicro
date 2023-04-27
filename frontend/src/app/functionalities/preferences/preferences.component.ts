@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Genre } from 'src/app/models/Genre';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-preferences',
@@ -7,6 +8,9 @@ import { Genre } from 'src/app/models/Genre';
   styleUrls: ['./preferences.component.scss']
 })
 export class PreferencesComponent {
+
+
+  constructor(private userService : UserService){}
 
   genres: Array<{genre: Genre, selected: boolean}> = [
     {genre: {id: 28, name: 'Action'}, selected: false},
@@ -49,6 +53,20 @@ export class PreferencesComponent {
       return;
     }
     this.genres.forEach(t => t.selected = selected);
+  }
+
+  enregistrerPreferences(){
+    let selectedPreferences = this.genres.filter(t => t.selected);
+    console.log(selectedPreferences);
+    let list_to_export : Genre[] = [];
+    selectedPreferences.forEach(
+      object => {
+        list_to_export.push(object['genre']);
+      }
+    )
+    let result = this.userService.setPreferences(list_to_export);
+    console.log(result);
+    //if true redirection
   }
 
 }

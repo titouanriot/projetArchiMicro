@@ -15,7 +15,6 @@ export class UserService {
   }
 
   async has_preferences(id : number) : Promise<boolean> {
-    // à  remplecer par id
     const promise = new Promise<boolean>((resolve, reject) => {
       let params = new HttpParams().set("id",id)
       this.http.get<boolean>(this.api_url + this.user_endpoint + "/has_preferences",{params : params}).subscribe({

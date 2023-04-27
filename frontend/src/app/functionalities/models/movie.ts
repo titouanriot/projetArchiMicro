@@ -8,6 +8,7 @@ export interface Movie {
     vote_average : number;
     vote_count : number;
     overview : string;
+    poster_path : string;
 }
 
 

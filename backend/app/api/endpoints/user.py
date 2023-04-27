@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException, status
 from app.services.userService import UserService
 from app.database import SessionLocal
 from sqlalchemy.orm import Session
@@ -39,12 +39,35 @@ async def get_by_email(email : str, db : Session = Depends(get_db)):
     else:
         return {'Error' : 'This user does not exist'}
 
-@router.post("/add_user")
+
+
+
+# @router.post("/add_user")
+# async def add_user(new_user : UserBase, db : Session = Depends(get_db)):
+#     """
+#         Add a user in the database
+#     """
+#     return service.createUser(new_user, db)
+
+@router.post("/add_user", response_model=UserBase, status_code=status.HTTP_201_CREATED)
 async def add_user(new_user : UserBase, db : Session = Depends(get_db)):
     """
         Add a user in the database
     """
-    return service.createUser(new_user, db)
+    result = service.createUser(new_user, db)
+    if 'result' in result.keys():
+        return new_user
+    else:
+        if result['Error'] == 'This user does already exist':
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="User already exists"
+            )
+        else:
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+
+
 
 
 @router.delete("/delete_user")

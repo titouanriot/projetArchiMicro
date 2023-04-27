@@ -51,7 +51,7 @@ export class AuthenticationService {
 
 
   register(account: Account) {
-    console.log(account);
+    return this.http.post(`${environment.apiUrl}/user/add_user`, account);
   }
 
 

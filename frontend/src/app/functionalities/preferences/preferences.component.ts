@@ -26,7 +26,7 @@ export class PreferencesComponent implements OnInit {
       preferences => {
         if (preferences.length > 0){
           this.genres.forEach(genre => {
-            if (preferences.findIndex(preference => preference.id === genre.genre.id) > -1){
+            if (preferences.findIndex(preference => preference.id_genre === genre.genre.id_genre) > -1){
               genre.selected = true;
             }   
           })
@@ -36,25 +36,25 @@ export class PreferencesComponent implements OnInit {
   }
 
   genres: Array<{genre: Genre, selected: boolean}> = [
-    {genre: {id: 28, name: 'Action'}, selected: false},
-    {genre: {id: 12, name: 'Aventure'}, selected: false},
-    {genre: {id: 16, name: 'Animation'}, selected: false},
-    {genre: {id: 35, name: 'Comédie'}, selected: false},
-    {genre: {id: 80, name: 'Crime'}, selected: false},
-    {genre: {id: 99, name: 'Documentaire'}, selected: false},
-    {genre: {id: 18, name: 'Drame'}, selected: false},
-    {genre: {id: 10751, name: 'Familial'}, selected: false},
-    {genre: {id: 14, name: 'Fantastique'}, selected: false},
-    {genre: {id: 36, name: 'Histoire'}, selected: false},
-    {genre: {id: 27, name: 'Horreur'}, selected: false},
-    {genre: {id: 10402, name: 'Musique'}, selected: false},
-    {genre: {id: 9648, name: 'Mystère'}, selected: false},
-    {genre: {id: 10749, name: 'Romance'}, selected: false},
-    {genre: {id: 878, name: 'Science-Fiction'}, selected: false},
-    {genre: {id: 10770, name: 'Téléfilm'}, selected: false},
-    {genre: {id: 53, name: 'Thriller'}, selected: false},
-    {genre: {id: 10752, name: 'Guerre'}, selected: false},
-    {genre: {id: 37, name: 'Western'}, selected: false}
+    {genre: {id_genre: 28, genre_name: 'Action'}, selected: false},
+    {genre: {id_genre: 12, genre_name: 'Aventure'}, selected: false},
+    {genre: {id_genre: 16, genre_name: 'Animation'}, selected: false},
+    {genre: {id_genre: 35, genre_name: 'Comédie'}, selected: false},
+    {genre: {id_genre: 80, genre_name: 'Crime'}, selected: false},
+    {genre: {id_genre: 99, genre_name: 'Documentaire'}, selected: false},
+    {genre: {id_genre: 18, genre_name: 'Drame'}, selected: false},
+    {genre: {id_genre: 10751, genre_name: 'Familial'}, selected: false},
+    {genre: {id_genre: 14, genre_name: 'Fantastique'}, selected: false},
+    {genre: {id_genre: 36, genre_name: 'Histoire'}, selected: false},
+    {genre: {id_genre: 27, genre_name: 'Horreur'}, selected: false},
+    {genre: {id_genre: 10402, genre_name: 'Musique'}, selected: false},
+    {genre: {id_genre: 9648, genre_name: 'Mystère'}, selected: false},
+    {genre: {id_genre: 10749, genre_name: 'Romance'}, selected: false},
+    {genre: {id_genre: 878, genre_name: 'Science-Fiction'}, selected: false},
+    {genre: {id_genre: 10770, genre_name: 'Téléfilm'}, selected: false},
+    {genre: {id_genre: 53, genre_name: 'Thriller'}, selected: false},
+    {genre: {id_genre: 10752, genre_name: 'Guerre'}, selected: false},
+    {genre: {id_genre: 37, genre_name: 'Western'}, selected: false}
   ];
 
   allSelect: boolean = false;

@@ -100,3 +100,8 @@ async def has_preferences_by_id(id : int, db : Session = Depends(get_db)):
 async def set_preferences(email : Annotated[str, Body()], genres : List[GenresBase], db : Session = Depends(get_db)):
     mail: str = unquote(email)
     return service.set_preferences(mail, genres, db)
+
+@router.get("/get_preferences")
+async def get_preferences(email : str, db : Session = Depends(get_db)):
+    mail: str = unquote(email)
+    return service.get_preferences(mail, db)

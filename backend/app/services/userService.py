@@ -10,11 +10,14 @@ from sqlalchemy.exc import SQLAlchemyError
 from app.models.genresModel import GenresBase
 from app.models.preferencesModel import PreferenceBase
 from app.models.genresSchema import GenresSchema
+from app.services.genresService import GenreService
 
 class UserService:
     """
         Service used for the user actions
     """
+
+    genresService = GenreService()
 
     def get_user_by_email(self, email : str, db : Session):
         item = db.query(UserSchema).filter_by(email=email).first()
@@ -39,7 +42,7 @@ class UserService:
             if users : 
                 return users
             else : 
-                raise HTTPException(status_code=404, detail="This user does not exist")
+                raise HTTPException(status_code=404, detail="Users do not exist")
         except SQLAlchemyError as e:
             raise HTTPException(status_code=500, detail="An error occured")
 
@@ -129,11 +132,6 @@ class UserService:
             print(str(e))
             raise HTTPException(status_code=500, detail="An error occured")
     
-    def check_if_genre_exist(self, id : int, db : Session):
-        doesExist = db.query(exists().where(GenresSchema.id_genre == id)).scalar()
-        return doesExist
-    
-
     def checkIfPreferenceExists(self, id_genre : int, id_user : int, db : Session):
         doesExist = db.query(exists().where(PreferencesSchema.id_genre == id_genre and PreferencesSchema.id_user == id_user)).scalar()
         return doesExist
@@ -164,7 +162,7 @@ class UserService:
                         self.delete_preference(preference.id_genre, user_db.id_user, db)
                 for genre in genres : 
                     nb_preferences_total = nb_preferences_total + 1
-                    if self.check_if_genre_exist(genre.id_genre, db):
+                    if self.genresService.check_if_genre_exist(genre.id_genre, db):
                         newPreference = PreferenceBase(id_user = user_db.id_user, id_genre = genre.id_genre)
                         newPreferenceSchema = PreferencesSchema(**newPreference.dict())
                         db.add(newPreferenceSchema)

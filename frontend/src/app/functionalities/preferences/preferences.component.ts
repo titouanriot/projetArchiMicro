@@ -4,6 +4,7 @@ import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { User } from 'src/app/models/user';
+import { GenresService } from '../services/genres.service';
 
 @Component({
   selector: 'app-preferences',
@@ -16,12 +17,23 @@ export class PreferencesComponent implements OnInit {
   errorMessage = "";
   connectedUser: User | null = null;
 
-  constructor(private userService : UserService, private _router : Router, private authService : AuthenticationService){
+  constructor(private userService : UserService,
+     private _router : Router,
+     private authService : AuthenticationService,
+     private genresService : GenresService){
     this.authService.user.subscribe(u => this.connectedUser = u);
   }
 
   ngOnInit(): void {
-    //ajouter genres services
+    this.genresService.getAllGenres().then(
+      genres => {
+        genres.forEach(
+          genreItem => {
+            this.genres.push({genre : genreItem, selected : false});
+          }
+        )
+      }
+    );
     this.userService.getPreferences(this.connectedUser!.email).then(
       preferences => {
         if (preferences.length > 0){
@@ -35,27 +47,27 @@ export class PreferencesComponent implements OnInit {
     )
   }
 
-  genres: Array<{genre: Genre, selected: boolean}> = [
-    {genre: {id_genre: 28, genre_name: 'Action'}, selected: false},
-    {genre: {id_genre: 12, genre_name: 'Aventure'}, selected: false},
-    {genre: {id_genre: 16, genre_name: 'Animation'}, selected: false},
-    {genre: {id_genre: 35, genre_name: 'Comédie'}, selected: false},
-    {genre: {id_genre: 80, genre_name: 'Crime'}, selected: false},
-    {genre: {id_genre: 99, genre_name: 'Documentaire'}, selected: false},
-    {genre: {id_genre: 18, genre_name: 'Drame'}, selected: false},
-    {genre: {id_genre: 10751, genre_name: 'Familial'}, selected: false},
-    {genre: {id_genre: 14, genre_name: 'Fantastique'}, selected: false},
-    {genre: {id_genre: 36, genre_name: 'Histoire'}, selected: false},
-    {genre: {id_genre: 27, genre_name: 'Horreur'}, selected: false},
-    {genre: {id_genre: 10402, genre_name: 'Musique'}, selected: false},
-    {genre: {id_genre: 9648, genre_name: 'Mystère'}, selected: false},
-    {genre: {id_genre: 10749, genre_name: 'Romance'}, selected: false},
-    {genre: {id_genre: 878, genre_name: 'Science-Fiction'}, selected: false},
-    {genre: {id_genre: 10770, genre_name: 'Téléfilm'}, selected: false},
-    {genre: {id_genre: 53, genre_name: 'Thriller'}, selected: false},
-    {genre: {id_genre: 10752, genre_name: 'Guerre'}, selected: false},
-    {genre: {id_genre: 37, genre_name: 'Western'}, selected: false}
-  ];
+  genres: Array<{genre: Genre, selected: boolean}> = [];
+  //   {genre: {id_genre: 28, genre_name: 'Action'}, selected: false},
+  //   {genre: {id_genre: 12, genre_name: 'Aventure'}, selected: false},
+  //   {genre: {id_genre: 16, genre_name: 'Animation'}, selected: false},
+  //   {genre: {id_genre: 35, genre_name: 'Comédie'}, selected: false},
+  //   {genre: {id_genre: 80, genre_name: 'Crime'}, selected: false},
+  //   {genre: {id_genre: 99, genre_name: 'Documentaire'}, selected: false},
+  //   {genre: {id_genre: 18, genre_name: 'Drame'}, selected: false},
+  //   {genre: {id_genre: 10751, genre_name: 'Familial'}, selected: false},
+  //   {genre: {id_genre: 14, genre_name: 'Fantastique'}, selected: false},
+  //   {genre: {id_genre: 36, genre_name: 'Histoire'}, selected: false},
+  //   {genre: {id_genre: 27, genre_name: 'Horreur'}, selected: false},
+  //   {genre: {id_genre: 10402, genre_name: 'Musique'}, selected: false},
+  //   {genre: {id_genre: 9648, genre_name: 'Mystère'}, selected: false},
+  //   {genre: {id_genre: 10749, genre_name: 'Romance'}, selected: false},
+  //   {genre: {id_genre: 878, genre_name: 'Science-Fiction'}, selected: false},
+  //   {genre: {id_genre: 10770, genre_name: 'Téléfilm'}, selected: false},
+  //   {genre: {id_genre: 53, genre_name: 'Thriller'}, selected: false},
+  //   {genre: {id_genre: 10752, genre_name: 'Guerre'}, selected: false},
+  //   {genre: {id_genre: 37, genre_name: 'Western'}, selected: false}
+  // ];
 
   allSelect: boolean = false;
 

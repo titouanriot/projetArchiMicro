@@ -44,6 +44,11 @@ MYSQL_PASSWORD=[password]
 
 MYSQL_ROOT_PASSWORD=[password]
 
+API_KEY=[api_key]
+
+SECRET_KEY=[key]
+
+ALGORITHM=[algorithm]
 
 To Launch it, go on the backend folder and execute `uvicorn app.main:app --port 8000 --reload` (if you do not have the packages installed, you can start the .venv).
 Accessible at `http://localhost:8000`.

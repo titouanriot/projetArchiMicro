@@ -6,9 +6,9 @@ import { environment } from 'src/environment/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class GenresService implements OnInit{
+export class GenreService implements OnInit{
   api_url : string = "";
-  genre_endpoint = "/genres";
+  genre_endpoint = "/genre";
   constructor(private http : HttpClient) {
     this.api_url = environment.backendBaseUrl;
    }

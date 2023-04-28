@@ -1,7 +1,11 @@
 import csv
+from dotenv import load_dotenv
+import os
 from tmdbv3api import TMDb, Movie
 
-API_KEY = '6b33818ca7560993ece79da70a9fc439'
+
+load_dotenv()
+API_KEY = os.getenv('API_KEY')
 FILE_NAME = 'toto.csv'
 NB_MOVIES_TO_LOAD = 20
 

@@ -86,7 +86,6 @@ class MovieService:
         try:
             movie = Movie()
             total_pages = nb_movies_to_load // 20
-            nbMoviesAdded = 0
             for page in range(1, total_pages+1):
                 popular_movies = movie.popular(page=page)
                 for popular_movie in popular_movies:
@@ -106,8 +105,6 @@ class MovieService:
 
                         has_genre_db = HasGenreBase(id_genre=genre['id'], id_movie=m['id'])
                         self.createHasGenre(has_genre_db, db)
-                nbMoviesAdded = nbMoviesAdded + 1
-                print("Number of Movies Added " + str(nbMoviesAdded) + " over " + str(nb_movies_to_load))
             return {'result': 'Movies Added'}
         except SQLAlchemyError as e:
             db.rollback()

@@ -1,11 +1,10 @@
 from fastapi import FastAPI
-from mysqlx import Session
 from app.api.endpoints import user, auth, genre, movie
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
 from app.database import engine
-from app.models import userSchema, preferencesSchema, movieSchema, hasGenreSchema, genreSchema
+from app.models import userSchema, preferencesSchema, movieSchema, hasGenreSchema, genreSchema, watchedSchema
 from app.database import SessionLocal
 from app.services.movieService import MovieService
 app = FastAPI()
@@ -20,6 +19,7 @@ preferencesSchema.Base.metadata.create_all(bind=engine)
 movieSchema.Base.metadata.create_all(bind=engine)
 hasGenreSchema.Base.metadata.create_all(bind=engine)
 genreSchema.Base.metadata.create_all(bind=engine)
+watchedSchema.Base.metadata.create_all(bind=engine)
 
 origins = [
     "http://localhost",
@@ -41,8 +41,7 @@ def get_db():
     finally :
         db.close()
 movieService = MovieService()
-db: Session = next(get_db())
-movieService.load_movies(db, 20)
+movieService.load_movies(next(get_db()), 40)
 
 @app.get("/")
 async def root():
@@ -53,8 +52,6 @@ async def root():
             "Informations" : "Please check the following content to know how to use the different functionalities of the app",
             "Access to the Docs" : "http://localhost/docs",
             }
-
-
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)

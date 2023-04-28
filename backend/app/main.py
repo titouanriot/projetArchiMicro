@@ -1,11 +1,13 @@
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI
+from mysqlx import Session
 from app.api.endpoints import user, auth, genre, movie
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
-
 from app.database import engine
 from app.models import userSchema, preferencesSchema, movieSchema, hasGenreSchema, genreSchema
+from app.database import SessionLocal
+from app.services.movieService import MovieService
 app = FastAPI()
 
 app.include_router(user.router)
@@ -31,6 +33,16 @@ app.add_middleware(
     allow_methods = ["*"],
     allow_headers=["*"]
 )
+
+def get_db():
+    db = SessionLocal()
+    try : 
+        yield db
+    finally :
+        db.close()
+movieService = MovieService()
+db: Session = next(get_db())
+movieService.load_movies(db, 20)
 
 @app.get("/")
 async def root():

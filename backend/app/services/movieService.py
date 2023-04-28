@@ -37,7 +37,7 @@ class MovieService:
                 print(self.checkIfMovieExists(new_movie.title, db))
                 return {'result': 'Movie Added'}
             else:
-                raise HTTPException(status_code=404, detail="This movie already exists")
+                return {'result': 'Movie not added : Already Present'}
         except SQLAlchemyError as e:
             db.rollback()
             raise HTTPException(status_code=500, detail="An error occured")
@@ -73,7 +73,7 @@ class MovieService:
                 db.commit()
                 return {'result': 'Relation HasGenre Created'}
             else:
-                raise HTTPException(status_code=404, detail="This relation HasGenre already exists")
+                return {'result': 'Relation HasGenre Not Created : Already Exist'}
         except SQLAlchemyError as e:
             db.rollback()
             print(str(e))

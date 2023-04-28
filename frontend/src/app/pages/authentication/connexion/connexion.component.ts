@@ -22,13 +22,11 @@ export class ConnexionComponent {
 
 
   onSubmit() {
-    // this.error = (this.authService.login(this.user.email, this.user.password) == 'error');
-
 
     this.error = false;
     this.authService.login(this.user.email, this.user.password).pipe(first()).subscribe({
       next: () => {
-        this.router.navigateByUrl('/infos/cgu');
+        this.router.navigateByUrl('/app/propose-movie');
       },
       error: error => {
         this.error = true;

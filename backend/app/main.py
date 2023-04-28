@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
 from app.database import engine
-from app.models import userSchema, preferencesSchema
+from app.models import userSchema, preferencesSchema, genresSchema
 app = FastAPI()
 
 app.include_router(user.router)
@@ -13,6 +13,7 @@ app.include_router(auth.router)
 
 userSchema.Base.metadata.create_all(bind=engine)
 preferencesSchema.Base.metadata.create_all(bind=engine)
+genresSchema.Base.metadata.create_all(bind=engine)
 
 origins = [
     "http://localhost",

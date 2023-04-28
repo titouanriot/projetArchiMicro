@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Genre } from 'src/app/models/Genre';
+import { UserService } from '../services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-preferences',
@@ -7,6 +9,12 @@ import { Genre } from 'src/app/models/Genre';
   styleUrls: ['./preferences.component.scss']
 })
 export class PreferencesComponent {
+
+
+  errorMessage = "";
+
+
+  constructor(private userService : UserService, private _router : Router){}
 
   genres: Array<{genre: Genre, selected: boolean}> = [
     {genre: {id: 28, name: 'Action'}, selected: false},
@@ -49,6 +57,34 @@ export class PreferencesComponent {
       return;
     }
     this.genres.forEach(t => t.selected = selected);
+  }
+
+
+  get isButtonDisabled(){
+    return (this.genres.filter(t => t.selected).length == 0);
+  }
+
+  enregistrerPreferences(){
+    let selectedPreferences = this.genres.filter(t => t.selected);
+    console.log(selectedPreferences);
+    let list_to_export : Genre[] = [];
+    selectedPreferences.forEach(
+      object => {
+        list_to_export.push(object['genre']);
+      }
+    )
+    let result = this.userService.setPreferences(list_to_export);
+    result.then(
+      res => {
+        console.log('oh');
+        this._router.navigate(["/app/propose-movie"]);
+      },
+      err => {
+        this.errorMessage = "Une erreur s'est déroulée";
+      }
+      
+    )
+    //if true redirection
   }
 
 }

@@ -23,12 +23,13 @@
             </ul>
         </span>
 
-        <button mat-fab extended color="primary">
+        <button mat-fab extended color="primary" (click)="enregistrerPreferences()" [disabled]="isButtonDisabled">
             <mat-icon>save</mat-icon>
             <span>Enregistrer</span>
         </button>
 
         <mat-divider></mat-divider>
+        <span class="error"> {{errorMessage}} </span>
     </section>
 </div>
 

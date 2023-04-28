@@ -14,6 +14,7 @@ export class MoviesService {
   
   DATA : Movie[] = [
     {
+      id_movie:1,
       original_title : "titre original 1",
       title : "titre 1",
       language : LanguageE.fr,
@@ -26,6 +27,7 @@ export class MoviesService {
       poster_path : "ahMxyHMSJXingQr4yJBMzMU9k42.jpg"
     },
     {
+      id_movie:2,
       original_title : "titre original 2",
       title : "titre 2",
       language : LanguageE.en,

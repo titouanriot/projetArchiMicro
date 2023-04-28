@@ -7,6 +7,7 @@ import { FunctionalitiesRoutingModule } from './functionalities-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ProposeMovieComponent } from './movies/propose-movie/propose-movie.component';
 import { MenuComponent } from './menu/menu.component';
+import { WatchedComponent } from './watched/watched.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { MenuComponent } from './menu/menu.component';
         ContainerComponent,
         ListMoviesComponent,
         ProposeMovieComponent,
-        MenuComponent
+        MenuComponent,
+        WatchedComponent
     ],
     exports: [],
     imports : [

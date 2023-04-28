@@ -4,6 +4,7 @@ import { Genre } from 'src/app/models/Genre';
 import { User } from 'src/app/models/user';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { environment } from 'src/environment/environment';
+import { Movie } from '../models/movie';
 
 @Injectable({
   providedIn: 'root'
@@ -70,4 +71,19 @@ export class UserService {
     return promise;
   }
 
+  async getWatched(email : string){
+    const promise = new Promise<Movie[]>((resolve, reject) => {
+      let params = new HttpParams().set("email", encodeURIComponent(email))
+      this.http.get<Movie[]>(this.api_url + this.user_endpoint + "/get_watched", {params : params}).subscribe({
+        next: (res : Movie[]) => {
+          resolve(res);
+        },
+        error : (err : any) => {
+          reject(err);
+        }
+      });
+    });
+    return promise;
+  }
+  
 }

@@ -1,0 +1,11 @@
+id,budget,genres,original_language,popularity,release_date,revenue,runtime,vote_average,vote_count
+640146,200000000,"['Action', 'Aventure', 'Science-Fiction']",en,12579.923,2023-02-15,473237851,124,6.512,1776
+502356,100000000,"['Animation', 'Aventure', 'Familial', 'Fantastique', 'Comédie']",en,10478.582,2023-04-05,876438061,92,7.511,1362
+594767,125000000,"['Action', 'Comédie', 'Fantastique']",en,5900.902,2023-03-15,132128334,130,6.858,1158
+76600,350000000,"['Science-Fiction', 'Aventure', 'Action']",en,4708.27,2022-12-14,2312335665,192,7.721,7481
+677179,75000000,"['Drame', 'Action']",en,3850.189,2023-03-01,269000000,116,7.286,1169
+713704,12000000,"['Horreur', 'Thriller']",en,2703.373,2023-04-12,40300000,96,7.0,161
+638974,0,"['Comédie', 'Mystère', 'Action']",en,2666.018,2023-03-28,0,89,6.554,848
+948713,0,"['Action', 'Aventure', 'Histoire', 'Drame', 'Guerre']",en,2378.19,2023-04-14,0,120,7.462,209
+1008005,0,['Horreur'],es,2005.465,2023-02-10,0,99,6.3,53
+315162,90000000,"['Animation', 'Familial', 'Fantastique', 'Aventure', 'Comédie']",en,1839.635,2022-12-07,480000000,102,8.298,5311

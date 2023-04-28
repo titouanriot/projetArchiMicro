@@ -8,7 +8,7 @@ from app.models.userSchema import UserSchema
 from sqlalchemy.exc import SQLAlchemyError
 from urllib.parse import unquote
 
-from app.models.genresModel import GenresBase
+from app.models.genreModel import GenreBase
 
 """
     Describe the parameters of this api file
@@ -97,7 +97,7 @@ async def has_preferences_by_id(id : int, db : Session = Depends(get_db)):
     return service.has_preferences_by_id(id,db)
 
 @router.post("/set_preferences")
-async def set_preferences(email : Annotated[str, Body()], genres : List[GenresBase], db : Session = Depends(get_db)):
+async def set_preferences(email : Annotated[str, Body()], genres : List[GenreBase], db : Session = Depends(get_db)):
     mail: str = unquote(email)
     return service.set_preferences(mail, genres, db)
 

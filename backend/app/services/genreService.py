@@ -4,20 +4,20 @@ from sqlalchemy.orm import Session
 from sqlalchemy import exists
 from sqlalchemy.exc import SQLAlchemyError
 
-from app.models.genresModel import GenresBase
-from app.models.genresSchema import GenresSchema
+from app.models.genreModel import GenreBase
+from app.models.genreSchema import GenreSchema
 
 class GenreService:
     """
         Service used for the genres actions
     """
     def check_if_genre_exist(self, id : int, db : Session):
-        doesExist = db.query(exists().where(GenresSchema.id_genre == id)).scalar()
+        doesExist = db.query(exists().where(GenreSchema.id_genre == id)).scalar()
         return doesExist
     
     def get_all_genres(self, db : Session):
         try : 
-            genres = db.query(GenresSchema).all()
+            genres = db.query(GenreSchema).all()
             if genres : 
                 return genres
             else : 

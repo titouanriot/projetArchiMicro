@@ -12,9 +12,8 @@ class Settings(BaseSettings):
             user=os.getenv('MYSQL_USER'),
             password=os.getenv('MYSQL_PASSWORD'),
         )
-
-    SECRET_KEY :str = 'LACLEMEGASECRETE'
-    ALGORITHM = "HS256"                         
-    ACCESS_TOKEN_EXPIRE_MINUTES = 60
+    SECRET_KEY :str = os.getenv('SECRET_KEY')
+    ALGORITHM = os.getenv('ALGORITHM')                   
+    ACCESS_TOKEN_EXPIRE_MINUTES=60
 
 settings = Settings()

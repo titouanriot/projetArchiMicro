@@ -7,17 +7,17 @@ from sqlalchemy.orm import Session
 from sqlalchemy import exists
 from sqlalchemy.exc import SQLAlchemyError
 
-from app.models.genresModel import GenresBase
+from app.models.genreModel import GenreBase
 from app.models.preferencesModel import PreferenceBase
-from app.models.genresSchema import GenresSchema
-from app.services.genresService import GenreService
+from app.models.genreSchema import GenreSchema
+from app.services.genreService import GenreService
 
 class UserService:
     """
         Service used for the user actions
     """
 
-    genresService = GenreService()
+    genreService = GenreService()
 
     def get_user_by_email(self, email : str, db : Session):
         item = db.query(UserSchema).filter_by(email=email).first()
@@ -150,7 +150,7 @@ class UserService:
             print(str(e))
             raise HTTPException(status_code=500, detail="An error occured")
     
-    def set_preferences(self, mail : str, genres : List[GenresBase], db : Session):
+    def set_preferences(self, mail : str, genres : List[GenreBase], db : Session):
         try : 
             nb_preferences_passed = 0
             nb_preferences_total = 0
@@ -162,7 +162,7 @@ class UserService:
                         self.delete_preference(preference.id_genre, user_db.id_user, db)
                 for genre in genres : 
                     nb_preferences_total = nb_preferences_total + 1
-                    if self.genresService.check_if_genre_exist(genre.id_genre, db):
+                    if self.genreService.check_if_genre_exist(genre.id_genre, db):
                         newPreference = PreferenceBase(id_user = user_db.id_user, id_genre = genre.id_genre)
                         newPreferenceSchema = PreferencesSchema(**newPreference.dict())
                         db.add(newPreferenceSchema)
@@ -186,7 +186,7 @@ class UserService:
                 if (self.has_preferences(mail, db)) : 
                     list_genres = []
                     for preference in db.query(PreferencesSchema).filter(PreferencesSchema.id_user == user_db.id_user).all():
-                        list_genres.append(db.query(GenresSchema).filter(GenresSchema.id_genre == preference.id_genre).first())
+                        list_genres.append(db.query(GenreSchema).filter(GenreSchema.id_genre == preference.id_genre).first())
                     return list_genres
                 else : 
                     return []

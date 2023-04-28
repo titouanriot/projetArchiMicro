@@ -119,5 +119,4 @@ class MovieService:
         
         df = pd.read_sql(movie_query.statement, movie_query.session.bind)
         df.columns = ['id', 'genres', 'popularity']
-
         return df

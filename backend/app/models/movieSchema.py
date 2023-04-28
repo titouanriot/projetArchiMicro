@@ -14,7 +14,7 @@ class MovieSchema(Base):
     language = Column(String(255), nullable=False)
     popularity = Column(Float, nullable=False)
     poster_path = Column(String(255), nullable=False)
-    release_date = Column(Date, nullable=False)
+    release_date = Column(Date, nullable=True)
     runtime = Column(Integer, nullable=False)
     vote_average = Column(Float, nullable=False)
     vote_count = Column(Integer, nullable=False)

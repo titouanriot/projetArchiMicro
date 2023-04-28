@@ -1,4 +1,4 @@
-from fastapi import Depends, FastAPI
+from fastapi import FastAPI
 from mysqlx import Session
 from app.api.endpoints import user, auth, genre, movie
 from fastapi.middleware.cors import CORSMiddleware

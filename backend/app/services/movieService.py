@@ -1,3 +1,4 @@
+from datetime import date
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy import exists, func
@@ -26,6 +27,10 @@ class MovieService:
     def checkIfMovieExists(self, title: str, db: Session):
         doesMovieExist = db.query(exists().where(MovieSchema.title == title)).scalar()
         return doesMovieExist
+    
+    def checkIfMovieExistsById(self, id: int, db: Session):
+        doesMovieExist = db.query(exists().where(MovieSchema.id_movie == id)).scalar()
+        return doesMovieExist
 
 
     def createMovie(self, new_movie: MovieBase, db: Session):
@@ -34,7 +39,6 @@ class MovieService:
                 movie_db = MovieSchema(**new_movie.dict())
                 db.add(movie_db)
                 db.commit()
-                print(self.checkIfMovieExists(new_movie.title, db))
                 return {'result': 'Movie Added'}
             else:
                 return {'result': 'Movie not added : Already Present'}
@@ -42,11 +46,9 @@ class MovieService:
             db.rollback()
             raise HTTPException(status_code=500, detail="An error occured")
 
-
     def checkIfGenreExists(self, genre_name: str, db: Session):
         doesGenreExist = db.query(exists().where(GenreSchema.genre_name == genre_name)).scalar()
         return doesGenreExist
-
 
     def createGenre(self, new_genre: GenreBase, db: Session):
         try:
@@ -59,21 +61,22 @@ class MovieService:
             db.rollback()
             raise HTTPException(status_code=500, detail="An error occured genre")
 
-
     def checkIfHasGenreExists(self, id_movie: int, id_genre: int, db: Session):
         doesHasGenreExist = db.query(exists().where(HasGenreSchema.id_movie == id_movie).where(HasGenreSchema.id_genre == id_genre)).scalar()
         return doesHasGenreExist
 
-
     def createHasGenre(self, new_has_genre: HasGenreBase, db: Session):
         try:
-            if not self.checkIfHasGenreExists(new_has_genre.id_movie, new_has_genre.id_genre, db):
-                has_genre_db = HasGenreSchema(**new_has_genre.dict())
-                db.add(has_genre_db)
-                db.commit()
-                return {'result': 'Relation HasGenre Created'}
+            if (self.checkIfMovieExistsById(new_has_genre.id_movie, db)):       
+                if not self.checkIfHasGenreExists(new_has_genre.id_movie, new_has_genre.id_genre, db):
+                    has_genre_db = HasGenreSchema(**new_has_genre.dict())
+                    db.add(has_genre_db)
+                    db.commit()
+                    return {'result': 'Relation HasGenre Created'}
+                else:
+                    return {'result': 'Relation HasGenre Not Created : Already Exist'}
             else:
-                return {'result': 'Relation HasGenre Not Created : Already Exist'}
+                return {'result': 'Relation HasGenre Not Created : Movie not found'}
         except SQLAlchemyError as e:
             db.rollback()
             print(str(e))
@@ -83,11 +86,13 @@ class MovieService:
         try:
             movie = Movie()
             total_pages = nb_movies_to_load // 20
-
+            nbMoviesAdded = 0
             for page in range(1, total_pages+1):
                 popular_movies = movie.popular(page=page)
                 for popular_movie in popular_movies:
                     m = movie.details(popular_movie['id'])
+                    if not (isinstance(m['release_date'], date)) :
+                        m['release_date'] = 0
                     movie_db = MovieBase(id_movie=m['id'], original_title=m['original_title'], \
                                            title=m['title'], language=m['original_language'], \
                                            popularity=m['popularity'], poster_path=m['poster_path'], \
@@ -95,16 +100,14 @@ class MovieService:
                                            vote_average=m['vote_average'], vote_count=m['vote_count'], \
                                            overview=m['overview'])
                     self.createMovie(movie_db, db)
-                    print(self.checkIfMovieExists(movie_db.title, db))
-
                     for genre in m['genres']:
                         genre_db = GenreBase(id_genre=genre['id'], genre_name=genre['name'])
                         self.createGenre(genre_db, db)
 
                         has_genre_db = HasGenreBase(id_genre=genre['id'], id_movie=m['id'])
-                        print(m['id'])
                         self.createHasGenre(has_genre_db, db)
-
+                nbMoviesAdded = nbMoviesAdded + 1
+                print("Number of Movies Added " + str(nbMoviesAdded) + " over " + str(nb_movies_to_load))
             return {'result': 'Movies Added'}
         except SQLAlchemyError as e:
             db.rollback()

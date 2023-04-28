@@ -55,4 +55,19 @@ export class UserService {
     return promise;
   }
 
+  async getPreferences(email : string){
+    const promise = new Promise<Genre[]>((resolve, reject) => {
+      let params = new HttpParams().set("email", encodeURIComponent(email))
+      this.http.get<Genre[]>(this.api_url + this.user_endpoint + "/get_preferences", {params : params}).subscribe({
+        next: (res : Genre[]) => {
+          resolve(res);
+        },
+        error : (err : any) => {
+          reject(err);
+        }
+      });
+    });
+    return promise;
+  }
+
 }

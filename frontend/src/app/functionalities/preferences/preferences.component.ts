@@ -1,20 +1,39 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Genre } from 'src/app/models/Genre';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
+import { AuthenticationService } from 'src/app/services/authentication.service';
+import { User } from 'src/app/models/user';
 
 @Component({
   selector: 'app-preferences',
   templateUrl: './preferences.component.html',
   styleUrls: ['./preferences.component.scss']
 })
-export class PreferencesComponent {
+export class PreferencesComponent implements OnInit {
 
 
   errorMessage = "";
+  connectedUser: User | null = null;
 
+  constructor(private userService : UserService, private _router : Router, private authService : AuthenticationService){
+    this.authService.user.subscribe(u => this.connectedUser = u);
+  }
 
-  constructor(private userService : UserService, private _router : Router){}
+  ngOnInit(): void {
+    //ajouter genres services
+    this.userService.getPreferences(this.connectedUser!.email).then(
+      preferences => {
+        if (preferences.length > 0){
+          this.genres.forEach(genre => {
+            if (preferences.findIndex(preference => preference.id === genre.genre.id) > -1){
+              genre.selected = true;
+            }   
+          })
+        }
+      }
+    )
+  }
 
   genres: Array<{genre: Genre, selected: boolean}> = [
     {genre: {id: 28, name: 'Action'}, selected: false},
@@ -84,7 +103,6 @@ export class PreferencesComponent {
       }
       
     )
-    //if true redirection
   }
 
 }

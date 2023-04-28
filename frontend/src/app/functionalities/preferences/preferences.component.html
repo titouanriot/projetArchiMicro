@@ -17,18 +17,19 @@
                 <li *ngFor="let g of genres">
                     <mat-checkbox [(ngModel)]="g.selected"
                         (ngModelChange)="updateAllSelect()">
-                    {{g.genre.name}}
+                    {{g.genre.genre_name}}
                     </mat-checkbox>
                 </li>
             </ul>
         </span>
 
-        <button mat-fab extended color="primary">
+        <button mat-fab extended color="primary" (click)="enregistrerPreferences()" [disabled]="isButtonDisabled">
             <mat-icon>save</mat-icon>
             <span>Enregistrer</span>
         </button>
 
         <mat-divider></mat-divider>
+        <span class="error"> {{errorMessage}} </span>
     </section>
 </div>
 

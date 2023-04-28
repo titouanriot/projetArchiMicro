@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { first } from 'rxjs';
 import { Id } from 'src/app/models/id';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 
@@ -10,7 +11,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 })
 export class ConnexionComponent {
 
-  user:Id = {username: '', password: ''};
+  user:Id = {email: '', password: ''};
 
   error:boolean = false;
 
@@ -21,7 +22,16 @@ export class ConnexionComponent {
 
 
   onSubmit() {
-    this.error = (this.authService.login(this.user.username, this.user.password) == 'error');
+
+    this.error = false;
+    this.authService.login(this.user.email, this.user.password).pipe(first()).subscribe({
+      next: () => {
+        this.router.navigateByUrl('/app/propose-movie');
+      },
+      error: error => {
+        this.error = true;
+      }
+    })
   }
 
 

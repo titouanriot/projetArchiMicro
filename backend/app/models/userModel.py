@@ -23,5 +23,6 @@ class User(UserBase):
     class Config:
         orm_mode = True
 
-class UserLogged(User):
+class UserLogged(BaseModel):
+    email: str
     token : str

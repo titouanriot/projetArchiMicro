@@ -36,7 +36,8 @@
                         <mat-hint *ngIf="f['password'].touched && f['password'].errors">Ce champ est invalide</mat-hint>
                     </mat-form-field>
                 </p>
-                <!-- <p *ngIf="error" class="error">Username ou mot de passe invalide</p> -->
+                <p *ngIf="errorUser" class="error">L'utilisateur existe déjà</p>
+                <p *ngIf="errorServer" class="error">Une erreur s'est produite</p>
                 <div class="button">
                     <button type="submit" [disabled]="this.form.invalid" mat-button>S'inscrire</button>
                 </div>

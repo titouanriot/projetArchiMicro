@@ -5,12 +5,16 @@ import { ContainerComponent } from './common/container/container.component';
 import { ListMoviesComponent } from './movies/list-movies/list-movies.component';
 import { FunctionalitiesRoutingModule } from './functionalities-routing.module';
 import { HttpClientModule } from '@angular/common/http';
+import { ProposeMovieComponent } from './movies/propose-movie/propose-movie.component';
+import { MenuComponent } from './menu/menu.component';
 
 
 @NgModule({
     declarations : [
         ContainerComponent,
-        ListMoviesComponent
+        ListMoviesComponent,
+        ProposeMovieComponent,
+        MenuComponent
     ],
     exports: [],
     imports : [

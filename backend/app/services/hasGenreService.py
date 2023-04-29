@@ -14,16 +14,13 @@ class HasGenreService:
 
     def create_has_genre(self, new_has_genre: HasGenreBase, db: Session):
         try:
-            if (self.check_if_has_genre_exist(new_has_genre.id_movie, db)):       
-                if not self.checkIfHasGenreExists(new_has_genre.id_movie, new_has_genre.id_genre, db):
-                    has_genre_db = HasGenreSchema(**new_has_genre.dict())
-                    db.add(has_genre_db)
-                    db.commit()
-                    return {'result': 'Relation HasGenre Created'}
-                else:
-                    return {'result': 'Relation HasGenre Not Created : Already Exist'}
+            if not (self.check_if_has_genre_exist(new_has_genre.id_movie, new_has_genre.id_genre, db)):       
+                has_genre_db = HasGenreSchema(**new_has_genre.dict())
+                db.add(has_genre_db)
+                db.commit()
+                return {'result': 'Relation HasGenre Created'}
             else:
-                return {'result': 'Relation HasGenre Not Created : Movie not found'}
+                return {'result': 'Relation HasGenre Not Created : Already Exist'}
         except SQLAlchemyError as e:
             db.rollback()
             print(str(e))

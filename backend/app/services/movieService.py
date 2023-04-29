@@ -4,6 +4,7 @@ import pandas as pd
 from typing import List
 from datetime import date
 from fastapi import HTTPException, Depends
+from pydantic import Field
 from sqlalchemy.orm import Session
 from sqlalchemy import exists, func
 from sqlalchemy.exc import SQLAlchemyError
@@ -29,7 +30,13 @@ class MovieService:
     def __init__(self):
         load_dotenv()
         self.tmdb = TMDb()
-        self.tmdb.api_key = os.getenv('API_KEY')
+        if 'API_KEY' in os.environ:
+            print("movie service")
+            self.tmdb.api_key = Field(..., env='API_KEY')
+        else : 
+            self.tmdb.api_key = os.getenv('API_KEY')
+        
+        print(os.getenv('API_KEY'))
         self.tmdb.language = 'fr-FR'
         self.genreService = GenreService()
         self.hasGenreService = HasGenreService()

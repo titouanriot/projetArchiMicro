@@ -1,17 +1,24 @@
 import csv
 from dotenv import load_dotenv
 import os
+from pydantic import Field
 from tmdbv3api import TMDb, Movie
 
 
 load_dotenv()
-API_KEY = os.getenv('API_KEY')
+
 FILE_NAME = 'toto.csv'
 NB_MOVIES_TO_LOAD = 20
 
 # Initier la connexion à l'API de TMDB
 tmdb = TMDb()
-tmdb.api_key = API_KEY
+if 'API_KEY' in os.environ:
+    print("LOAD CSV")
+    API_KEY: str = Field(..., env='API_KEY')
+else : 
+    API_KEY : str = os.getenv('API_KEY')
+
+tmdb.api_key : str = API_KEY
 tmdb.language = 'fr-FR'
 
 movie = Movie()

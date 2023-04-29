@@ -40,6 +40,7 @@ services:
     env_file:
       - .env
     environment:
+      API_KEY: ${API_KEY}
       DATABASE_URL: mysql+mysqlconnector://${MYSQL_USER}:${MYSQL_PASSWORD}@mysql:3306/${MYSQL_DATABASE}
     depends_on:
       - mysql

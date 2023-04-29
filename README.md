@@ -5,6 +5,7 @@ Thanks for having download our APP, and we hope you will enjoy to use it and sha
 
 ## How to deploy the APP in PROD
 
+The Docker has been developed using differents Operating Systems, MacOS 13.3.1 and Windows 10 22H2.
 You MUST have a Docker version installed on your machine.
 At the root of the project (same location as the docker-compose.yml file), you must create a file called `.env` in which you have to put the different information inside : 
 
@@ -17,6 +18,8 @@ MYSQL_PASSWORD=[password]
 MYSQL_ROOT_PASSWORD=[password]
 
 MYSQL_DATABASE='NameDB'
+
+API_KEY=[Your TMDB API KEY]
 
 Note that the host has to bethe name of the mysql container.
 After that, you just got to execute the command `docker-compose up` inside the project.

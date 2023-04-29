@@ -38,7 +38,7 @@ async def remove_watched_movie(to_delete_watched : WatchedModel, db: Session = D
 
 # récupérer liste de films vus par l'utilisateur
 # récupérer genre de films vus par l'utilsateur
-@router.get("/recommendations/user/{id_user}")
+@router.get("/user_recommendations/{id_user}")
 async def recommend_movies_by_user(id_user: int, db: Session = Depends(get_db)):
     # movie_lists = [[76600], [76600, 640146], [640146]]
     movie_ids_list = [movieService.get_watched_movie_ids_by_user(id_user, db)]

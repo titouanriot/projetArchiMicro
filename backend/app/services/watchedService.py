@@ -23,7 +23,7 @@ class WatchedService :
 
     def add_watched_movie(self, new_watched : WatchedModel, db : Session):
         try:
-            if (self.movieService.checkIfMovieExistsById(new_watched.id_movie, db)):
+            if (self.movieService.check_if_movie_exist_by_id(new_watched.id_movie, db)):
                 if (self.userService.checkIfExistsById(new_watched.id_user, db)):
                     if not (self.check_if_watched_exists(new_watched.id_user, new_watched.id_movie, db)):
                         watched_db = WatchedSchema(**new_watched.dict())

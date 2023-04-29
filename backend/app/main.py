@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
 from app.database import engine
-from app.models import userSchema, preferencesSchema, movieSchema, hasGenreSchema, genreSchema, watchedSchema
+from app.models import userSchema, preferencesSchema, movieSchema, hasGenreSchema, genreSchema, watchedSchema, groupSchema
 from app.database import SessionLocal
 from app.services.movieService import MovieService
 app = FastAPI()
@@ -21,6 +21,8 @@ movieSchema.Base.metadata.create_all(bind=engine)
 hasGenreSchema.Base.metadata.create_all(bind=engine)
 genreSchema.Base.metadata.create_all(bind=engine)
 watchedSchema.Base.metadata.create_all(bind=engine)
+groupSchema.Base.metadata.create_all(bind=engine)
+
 
 origins = [
     "http://localhost",
@@ -43,7 +45,7 @@ def get_db():
         db.close()
 
 movieService = MovieService()
-movieService.load_movies(next(get_db()), 40)
+movieService.load_movies(next(get_db()), 100)
 
 @app.get("/")
 async def root():

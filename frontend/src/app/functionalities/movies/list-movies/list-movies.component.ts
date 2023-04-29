@@ -28,7 +28,7 @@ export class ListMoviesComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   
-  listMovies: Movie[] = <Movie[]>[];
+  listRecommendedMovies: Movie[] = <Movie[]>[];
   listMoviesToDisplay : any;
 
   ngAfterViewInit() {
@@ -50,9 +50,17 @@ export class ListMoviesComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.listMovies = this.moviesService.listMovies;
-    console.log(this.listMovies)
-    this.listMoviesToDisplay = new MatTableDataSource(this.listMovies);
+    this.listRecommendedMovies = this.moviesService.listRecommendedMovies;
+    this.listMoviesToDisplay = new MatTableDataSource(this.listRecommendedMovies);
+  }
+
+  async getNewBatch(){
+    await this.moviesService.getNewBatch().then(
+      _ => {
+        this.listRecommendedMovies = this.moviesService.listRecommendedMovies;
+        this.listMoviesToDisplay = new MatTableDataSource(this.listRecommendedMovies);
+      }
+    )
   }
 
   addToWatched(movie: Movie){
@@ -65,14 +73,14 @@ export class ListMoviesComponent implements OnInit, AfterViewInit {
     });
   }
 
-  removeFromList(movie_to_delete : Movie){
-    let res = this.moviesService.removeFromList(movie_to_delete);
-    res.then(
-      _ => {
-        this.listMoviesToDisplay._updateChangeSubscription();
-      }
-    )
-  }
+  // removeFromList(movie_to_delete : Movie){
+  //   let res = this.moviesService.removeFromList(movie_to_delete);
+  //   res.then(
+  //     _ => {
+  //       this.listMoviesToDisplay._updateChangeSubscription();
+  //     }
+  //   )
+  // }
 }
 
 @Component({

@@ -12,7 +12,10 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatCardModule} from '@angular/material/card'
 import {MatDatepickerModule} from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import {MatNativeDateModule } from '@angular/material/core';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatSliderModule} from '@angular/material/slider';
 
 @NgModule({
   declarations: [],
@@ -31,6 +34,9 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatCardModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatGridListModule,
+    MatDialogModule,
+    MatSliderModule
   ],
   exports : [
     MatToolbarModule,
@@ -46,6 +52,9 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatCardModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatGridListModule,
+    MatDialogModule,
+    MatSliderModule
   ],
 })
 export class AngularMaterialModule { }

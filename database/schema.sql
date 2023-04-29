@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS Movie(
     original_title VARCHAR(100) NOT NULL,
     title VARCHAR(100) NOT NULL,
     language VARCHAR(100) NOT NULL,
-    category VARCHAR(100) NOT NULL,
+    popularity FLOAT NOT NULL,
     poster_path VARCHAR(100) NOT NULL,
     release_date DATE NOT NULL,
     runtime INT NOT NULL,

@@ -17,7 +17,7 @@
                 <li *ngFor="let g of genres">
                     <mat-checkbox [(ngModel)]="g.selected"
                         (ngModelChange)="updateAllSelect()">
-                    {{g.genre.name}}
+                    {{g.genre.genre_name}}
                     </mat-checkbox>
                 </li>
             </ul>

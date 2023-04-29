@@ -1,42 +1,53 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Genre } from 'src/app/models/Genre';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
+import { AuthenticationService } from 'src/app/services/authentication.service';
+import { User } from 'src/app/models/user';
+import { GenreService } from '../services/genre.service';
 
 @Component({
   selector: 'app-preferences',
   templateUrl: './preferences.component.html',
   styleUrls: ['./preferences.component.scss']
 })
-export class PreferencesComponent {
+export class PreferencesComponent implements OnInit {
 
 
   errorMessage = "";
+  connectedUser: User | null = null;
 
+  constructor(private userService : UserService,
+     private _router : Router,
+     private authService : AuthenticationService,
+     private genreService : GenreService){
+    this.authService.user.subscribe(u => this.connectedUser = u);
+  }
 
-  constructor(private userService : UserService, private _router : Router){}
+  ngOnInit(): void {
+    this.genreService.getAllGenres().then(
+      genres => {
+        genres.forEach(
+          genreItem => {
+            this.genres.push({genre : genreItem, selected : false});
+          }
+        )
+      }
+    );
+    this.userService.getPreferences(this.connectedUser!.email).then(
+      preferences => {
+        if (preferences.length > 0){
+          this.genres.forEach(genre => {
+            if (preferences.findIndex(preference => preference.id_genre === genre.genre.id_genre) > -1){
+              genre.selected = true;
+            }   
+          })
+        }
+      }
+    )
+  }
 
-  genres: Array<{genre: Genre, selected: boolean}> = [
-    {genre: {id: 28, name: 'Action'}, selected: false},
-    {genre: {id: 12, name: 'Aventure'}, selected: false},
-    {genre: {id: 16, name: 'Animation'}, selected: false},
-    {genre: {id: 35, name: 'Comédie'}, selected: false},
-    {genre: {id: 80, name: 'Crime'}, selected: false},
-    {genre: {id: 99, name: 'Documentaire'}, selected: false},
-    {genre: {id: 18, name: 'Drame'}, selected: false},
-    {genre: {id: 10751, name: 'Familial'}, selected: false},
-    {genre: {id: 14, name: 'Fantastique'}, selected: false},
-    {genre: {id: 36, name: 'Histoire'}, selected: false},
-    {genre: {id: 27, name: 'Horreur'}, selected: false},
-    {genre: {id: 10402, name: 'Musique'}, selected: false},
-    {genre: {id: 9648, name: 'Mystère'}, selected: false},
-    {genre: {id: 10749, name: 'Romance'}, selected: false},
-    {genre: {id: 878, name: 'Science-Fiction'}, selected: false},
-    {genre: {id: 10770, name: 'Téléfilm'}, selected: false},
-    {genre: {id: 53, name: 'Thriller'}, selected: false},
-    {genre: {id: 10752, name: 'Guerre'}, selected: false},
-    {genre: {id: 37, name: 'Western'}, selected: false}
-  ];
+  genres: Array<{genre: Genre, selected: boolean}> = [];
 
   allSelect: boolean = false;
 
@@ -84,7 +95,6 @@ export class PreferencesComponent {
       }
       
     )
-    //if true redirection
   }
 
 }

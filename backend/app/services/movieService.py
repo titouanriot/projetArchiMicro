@@ -20,6 +20,9 @@ from app.models.watchedModel import WatchedModel
 from app.models.watchedSchema import WatchedSchema
 from app.models.preferencesModel import PreferencesBase
 from app.models.preferencesSchema import PreferencesSchema
+from app.models.userSchema import UserSchema
+from app.models.userModel import UserBase
+from app.models.belongToSchema import BelongToSchema
 
 from app.services.genreService import GenreService
 from app.services.hasGenreService import HasGenreService
@@ -107,6 +110,35 @@ class MovieService:
                 .all()
         preferred_genres_names = [genre[0] for genre in preferred_genres]
         return preferred_genres_names
+    
+    def get_watched_movie_ids_by_group(self, id_group: int, db: Session):
+        user_ids = db.query(BelongToSchema.id_user).filter_by(id_group=id_group).all()
+        user_ids_list = [user_id[0] for user_id in user_ids]
+
+        group_watched_movie_ids = []
+        for user_id in user_ids_list:
+            user_watched_movies = db.query(WatchedSchema.id_movie) \
+                .join(UserSchema, WatchedSchema.id_user == UserSchema.id_user) \
+                .filter(UserSchema.id_user == user_id).all()
+            user_watched_movie_ids = [user_watched_movie[0] for user_watched_movie in user_watched_movies]
+            group_watched_movie_ids.append(user_watched_movie_ids)
+        
+        return group_watched_movie_ids
+    
+    def get_preferred_genres_names_by_group(self, id_group: int, db: Session):
+        user_ids = db.query(BelongToSchema.id_user).filter_by(id_group=id_group).all()
+        user_ids_list = [user_id[0] for user_id in user_ids]
+
+        group_preferred_genres = []
+        for user_id in user_ids_list:
+            user_preferred_genres = db.query(GenreSchema.genre_name) \
+                .join(PreferencesSchema) \
+                .filter(PreferencesSchema.id_user == user_id) \
+                .all()
+            user_preferred_genres_names = [genre[0] for genre in user_preferred_genres]
+            group_preferred_genres.append(user_preferred_genres_names)
+        
+        return group_preferred_genres
         
 
     def create_df_from_db(db: Session):

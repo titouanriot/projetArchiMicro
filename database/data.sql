@@ -19,8 +19,6 @@ INSERT INTO Director (director_name) VALUES
 ('Francis Ford Coppola'),
 ('Sidney Lumet');
 
-<<<<<<< HEAD
-
 /* TABLE OK: tous les genres de TMDB renseignés */
 INSERT INTO Genre (id_genre, genre_name) VALUES
 (28, 'Action'),
@@ -43,8 +41,6 @@ INSERT INTO Genre (id_genre, genre_name) VALUES
 (10752, 'Guerre'),
 (37, 'Western');
 
-=======
->>>>>>> develop
 INSERT INTO BelongTo (id_user, id_group) VALUES
 (1,1),
 (2,2),

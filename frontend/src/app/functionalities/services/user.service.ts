@@ -21,6 +21,21 @@ export class UserService {
     )
   }
 
+  async get_user_id(email : string) : Promise<number> {
+    const promise = new Promise<number>((resolve, reject) => {
+      let params = new HttpParams().set("email", encodeURIComponent(email))
+      this.http.get<number>(this.api_url + this.user_endpoint + "/get_id",{params : params}).subscribe({
+        next: (res : number) => {
+          resolve(res);
+        },
+        error : (err : any) => {
+          reject(err);
+        }
+      });
+    });
+    return promise;
+  }
+
   async has_preferences(email : string) : Promise<boolean> {
     const promise = new Promise<boolean>((resolve, reject) => {
       let params = new HttpParams().set("email", encodeURIComponent(email))
@@ -35,7 +50,6 @@ export class UserService {
     });
     return promise;
   }
-
 
   async setPreferences(genres : Array<Genre>){
     const promise = new Promise<boolean>((resolve, reject) => {

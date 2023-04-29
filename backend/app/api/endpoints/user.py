@@ -30,6 +30,11 @@ def get_db():
 async def get_all_users(db : Session = Depends(get_db)):
     return service.get_all_users(db)
 
+@router.get("/get_id")
+async def get_user_id(email : str,db : Session= Depends(get_db)):
+    mail: str = unquote(email)
+    return service.getUserId(mail, db)
+
 @router.get("/get_by_email")
 async def get_by_email(email : str, db : Session = Depends(get_db)):
     """

@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { AngularMaterialModule } from '../angular-material.module';
 import { ContainerComponent } from './common/container/container.component';
-import { ListMoviesComponent } from './movies/list-movies/list-movies.component';
+import { ListMoviesComponent, DialogOverviewListMoviesDialog } from './movies/list-movies/list-movies.component';
 import { FunctionalitiesRoutingModule } from './functionalities-routing.module';
 import { HttpClientModule } from '@angular/common/http';
-import { ProposeMovieComponent } from './movies/propose-movie/propose-movie.component';
+import { ProposeMovieComponent, DialogOverviewProposeMovieDialog } from './movies/propose-movie/propose-movie.component';
 import { MenuComponent } from './menu/menu.component';
 
 
@@ -14,14 +15,17 @@ import { MenuComponent } from './menu/menu.component';
         ContainerComponent,
         ListMoviesComponent,
         ProposeMovieComponent,
-        MenuComponent
+        MenuComponent,
+        DialogOverviewProposeMovieDialog,
+        DialogOverviewListMoviesDialog
     ],
     exports: [],
     imports : [
         CommonModule,
         AngularMaterialModule,
         FunctionalitiesRoutingModule,
-        HttpClientModule
+        HttpClientModule,
+        FormsModule
     ],
     providers: [],
     bootstrap : []

@@ -1,11 +1,15 @@
-import { AfterViewInit, Component, HostBinding, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import {Movie} from '../../models/movie';
 import { MoviesService } from '../../services/movies.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 
+export interface DialogData {
+  movieName: string;
+}
 @Component({
   selector: 'app-list-movies',
   templateUrl: './list-movies.component.html',
@@ -36,7 +40,7 @@ export class ListMoviesComponent implements OnInit, AfterViewInit {
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
   expandedElement: Movie | null = null;
 
-  constructor(private moviesService : MoviesService){}
+  constructor(private moviesService : MoviesService, public dialog: MatDialog){}
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.listMoviesToDisplay.filter = filterValue.trim().toLowerCase();
@@ -51,9 +55,14 @@ export class ListMoviesComponent implements OnInit, AfterViewInit {
     this.listMoviesToDisplay = new MatTableDataSource(this.listMovies);
   }
 
-  addToFavorite(movie: Movie){
-    console.log("button add To Favorite");
-    this.moviesService.addToFavorite(movie);
+  addToWatched(movie: Movie){
+    const dialogRef = this.dialog.open(DialogOverviewListMoviesDialog, {
+      data: {movieName: movie.title},
+    });
+
+    dialogRef.afterClosed().subscribe(note => {
+      this.moviesService.addToWatched(movie, note);
+    });
   }
 
   removeFromList(movie_to_delete : Movie){
@@ -63,5 +72,22 @@ export class ListMoviesComponent implements OnInit, AfterViewInit {
         this.listMoviesToDisplay._updateChangeSubscription();
       }
     )
+  }
+}
+
+@Component({
+  selector: 'dialog-overview-example-dialog',
+  templateUrl: './dialog-overview-example-dialog.html',
+})
+export class DialogOverviewListMoviesDialog {
+  constructor(
+    public dialogRef: MatDialogRef<DialogOverviewListMoviesDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+  ) {}
+
+  note = 5;
+
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 }

@@ -1,11 +1,13 @@
+import os
+import pandas as pd
+
+from typing import List
 from datetime import date
-from fastapi import HTTPException
+from fastapi import HTTPException, Depends
 from sqlalchemy.orm import Session
 from sqlalchemy import exists, func
 from sqlalchemy.exc import SQLAlchemyError
 from tmdbv3api import TMDb, Movie
-import pandas as pd
-import os
 from dotenv import load_dotenv
 
 from app.models.movieSchema import MovieSchema
@@ -14,28 +16,36 @@ from app.models.hasGenreSchema import HasGenreSchema
 from app.models.movieModel import MovieBase
 from app.models.genreModel import GenreBase
 from app.models.hasGenreModel import HasGenreBase
+from app.models.watchedModel import WatchedModel
+from app.models.watchedSchema import WatchedSchema
+from app.models.preferencesModel import PreferencesBase
+from app.models.preferencesSchema import PreferencesSchema
 
+from app.services.genreService import GenreService
+from app.services.hasGenreService import HasGenreService
 
 class MovieService:
-    load_dotenv()
-    api_key = os.getenv('API_KEY')
 
-    tmdb = TMDb()
-    tmdb.api_key = api_key
-    tmdb.language = 'fr-FR'
+    def __init__(self):
+        load_dotenv()
+        self.tmdb = TMDb()
+        self.tmdb.api_key = os.getenv('API_KEY')
+        self.tmdb.language = 'fr-FR'
+        self.genreService = GenreService()
+        self.hasGenreService = HasGenreService()
 
-    def checkIfMovieExists(self, title: str, db: Session):
+    def check_if_movie_exist(self, title: str, db: Session):
         doesMovieExist = db.query(exists().where(MovieSchema.title == title)).scalar()
         return doesMovieExist
     
-    def checkIfMovieExistsById(self, id: int, db: Session):
+    def check_if_movie_exist_by_id(self, id: int, db: Session):
         doesMovieExist = db.query(exists().where(MovieSchema.id_movie == id)).scalar()
         return doesMovieExist
 
 
-    def createMovie(self, new_movie: MovieBase, db: Session):
+    def create_movie(self, new_movie: MovieBase, db: Session):
         try:
-            if not self.checkIfMovieExists(new_movie.title, db):
+            if not self.check_if_movie_exist(new_movie.title, db):
                 movie_db = MovieSchema(**new_movie.dict())
                 db.add(movie_db)
                 db.commit()
@@ -45,42 +55,6 @@ class MovieService:
         except SQLAlchemyError as e:
             db.rollback()
             raise HTTPException(status_code=500, detail="An error occured")
-
-    def checkIfGenreExists(self, genre_name: str, db: Session):
-        doesGenreExist = db.query(exists().where(GenreSchema.genre_name == genre_name)).scalar()
-        return doesGenreExist
-
-    def createGenre(self, new_genre: GenreBase, db: Session):
-        try:
-            if not self.checkIfGenreExists(new_genre.genre_name, db):
-                genre_db = GenreSchema(**new_genre.dict())
-                db.add(genre_db)
-                db.commit()
-                return {'result': 'Genre Added'}
-        except SQLAlchemyError as e:
-            db.rollback()
-            raise HTTPException(status_code=500, detail="An error occured genre")
-
-    def checkIfHasGenreExists(self, id_movie: int, id_genre: int, db: Session):
-        doesHasGenreExist = db.query(exists().where(HasGenreSchema.id_movie == id_movie).where(HasGenreSchema.id_genre == id_genre)).scalar()
-        return doesHasGenreExist
-
-    def createHasGenre(self, new_has_genre: HasGenreBase, db: Session):
-        try:
-            if (self.checkIfMovieExistsById(new_has_genre.id_movie, db)):       
-                if not self.checkIfHasGenreExists(new_has_genre.id_movie, new_has_genre.id_genre, db):
-                    has_genre_db = HasGenreSchema(**new_has_genre.dict())
-                    db.add(has_genre_db)
-                    db.commit()
-                    return {'result': 'Relation HasGenre Created'}
-                else:
-                    return {'result': 'Relation HasGenre Not Created : Already Exist'}
-            else:
-                return {'result': 'Relation HasGenre Not Created : Movie not found'}
-        except SQLAlchemyError as e:
-            db.rollback()
-            print(str(e))
-            raise HTTPException(status_code=500, detail="An error occured has genre")
         
     def load_movies(self, db: Session, nb_movies_to_load: int):
         try:
@@ -98,17 +72,41 @@ class MovieService:
                                            release_date=m['release_date'], runtime=m['runtime'], \
                                            vote_average=m['vote_average'], vote_count=m['vote_count'], \
                                            overview=m['overview'])
-                    self.createMovie(movie_db, db)
+                    self.create_movie(movie_db, db)
                     for genre in m['genres']:
                         genre_db = GenreBase(id_genre=genre['id'], genre_name=genre['name'])
-                        self.createGenre(genre_db, db)
+                        self.genreService.create_genre(genre_db, db)
 
                         has_genre_db = HasGenreBase(id_genre=genre['id'], id_movie=m['id'])
-                        self.createHasGenre(has_genre_db, db)
+                        self.hasGenreService.create_has_genre(has_genre_db, db)
             return {'result': 'Movies Added'}
         except SQLAlchemyError as e:
             db.rollback()
             raise HTTPException(status_code=500, detail="An error occured")
+        
+    
+    def get_movie_by_id(self, id: int, db: Session):
+        movie = db.query(MovieSchema).filter_by(id_movie=id).firts()
+        pydantic_movie = MovieBase.from_orm(movie)
+        return pydantic_movie
+    
+    def get_movies_from_id_list(self, id_list: List[int], db: Session):
+        movies = db.query(MovieSchema).filter(MovieSchema.id_movie.in_(id_list)).all()
+        pydantic_movies = [MovieBase.from_orm(movie) for movie in movies]
+        return pydantic_movies
+    
+    def get_watched_movie_ids_by_user(self, id_user: int, db: Session):
+        watched_movies = db.query(WatchedSchema).filter_by(id_user=id_user).all()
+        watched_movies_ids = [watched_movie.id_movie for watched_movie in watched_movies]
+        return watched_movies_ids
+    
+    def get_preferred_genres_names_by_user(self, id_user: int, db: Session):
+        preferred_genres = db.query(GenreSchema.genre_name) \
+                .join(PreferencesSchema) \
+                .filter(PreferencesSchema.id_user == id_user) \
+                .all()
+        preferred_genres_names = [genre[0] for genre in preferred_genres]
+        return preferred_genres_names
         
 
     def create_df_from_db(db: Session):

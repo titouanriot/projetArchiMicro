@@ -8,7 +8,7 @@ from sqlalchemy import exists
 from sqlalchemy.exc import SQLAlchemyError
 
 from app.models.genreModel import GenreBase
-from app.models.preferencesModel import PreferenceBase
+from app.models.preferencesModel import PreferencesBase
 from app.models.genreSchema import GenreSchema
 from app.services.genreService import GenreService
 
@@ -163,7 +163,7 @@ class UserService:
                 for genre in genres : 
                     nb_preferences_total = nb_preferences_total + 1
                     if self.genreService.check_if_genre_exist(genre.id_genre, db):
-                        newPreference = PreferenceBase(id_user = user_db.id_user, id_genre = genre.id_genre)
+                        newPreference = PreferencesBase(id_user = user_db.id_user, id_genre = genre.id_genre)
                         newPreferenceSchema = PreferencesSchema(**newPreference.dict())
                         db.add(newPreferenceSchema)
                         nb_preferences_passed = nb_preferences_passed + 1

@@ -40,8 +40,9 @@ def get_db():
         yield db
     finally :
         db.close()
-movieService = MovieService()
-movieService.load_movies(next(get_db()), 40)
+
+# movieService = MovieService()
+# movieService.load_movies(next(get_db()), 40)
 
 @app.get("/")
 async def root():

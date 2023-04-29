@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class PreferenceBase(BaseModel):
+class PreferencesBase(BaseModel):
     id_user : int
     id_genre : int
 

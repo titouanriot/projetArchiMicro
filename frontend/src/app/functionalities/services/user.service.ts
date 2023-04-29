@@ -13,6 +13,7 @@ export class UserService {
 
   api_url : string = "";
   user_endpoint = "/user";
+  movie_endpoint = "/movie";
   connectedUser : User | null = null;
 
   constructor(private http : HttpClient, private authService : AuthenticationService) {
@@ -88,7 +89,7 @@ export class UserService {
   async getWatched(email : string){
     const promise = new Promise<Movie[]>((resolve, reject) => {
       let params = new HttpParams().set("email", encodeURIComponent(email))
-      this.http.get<Movie[]>(this.api_url + this.user_endpoint + "/get_watched", {params : params}).subscribe({
+      this.http.get<Movie[]>(this.api_url + this.movie_endpoint + "/get_watched", {params : params}).subscribe({
         next: (res : Movie[]) => {
           resolve(res);
         },

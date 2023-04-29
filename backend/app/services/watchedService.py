@@ -9,6 +9,7 @@ from app.services.movieService import MovieService
 from app.services.userService import UserService
 from app.models.watchedSchema import WatchedSchema
 from app.models.watchedModel import WatchedModel
+from app.models.userSchema import UserSchema
 
 
 class WatchedService : 
@@ -51,4 +52,32 @@ class WatchedService :
                     return { "result" : "Watched Movie Not Deleted : Watched Movie not existing"}
         except SQLAlchemyError as e:
             db.rollback()
+            raise HTTPException(status_code=500, detail="An error occured")
+    
+    def has_watched(self, mail : str, db : Session):
+        try : 
+            if self.userService.checkIfExists(mail, db) :
+                user_db = db.query(UserSchema).filter_by(email=mail).first()
+                return (db.query(exists().where(WatchedSchema.id_user == user_db.id_user)).scalar())
+            else:
+                raise HTTPException(status_code=404, detail="This user does not exist")
+        except SQLAlchemyError as e:
+            db.rollback()
+            print(str(e))
+            raise HTTPException(status_code=500, detail="An error occured")
+
+    def get_watched(self, mail : str, db : Session):
+        try : 
+            if self.userService.checkIfExists(mail, db) :
+                user_db = db.query(UserSchema).filter_by(email=mail).first()
+                if (self.has_watched(mail, db)) : 
+                    list_watched = []
+                    for watched in db.query(WatchedSchema).filter(WatchedSchema.id_user == user_db.id_user).all():
+                        list_watched.append(db.query(MovieSchema).filter(MovieSchema.id_movie == watched.id_movie).first())
+                    return list_watched
+                else : 
+                    return []
+            else : 
+                raise HTTPException(status_code=404, detail="This user does not exist")
+        except SQLAlchemyError as e:
             raise HTTPException(status_code=500, detail="An error occured")

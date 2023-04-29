@@ -19,6 +19,28 @@ INSERT INTO Director (director_name) VALUES
 ('Francis Ford Coppola'),
 ('Sidney Lumet');
 
+/* TABLE OK: tous les genres de TMDB renseignés */
+INSERT INTO Genre (id_genre, genre_name) VALUES
+(28, 'Action'),
+(12, 'Aventure'),
+(16, 'Animation'),
+(35, 'Comédie'),
+(80, 'Crime'),
+(99, 'Documentaire'),
+(18, 'Drame'),
+(10751, 'Familial'),
+(14, 'Fantastique'),
+(36, 'Histoire'),
+(27, 'Horreur'),
+(10402, 'Musique'),
+(9648, 'Mystère'),
+(10749, 'Romance'),
+(878, 'Science-Fiction'),
+(10770, 'Téléfilm'),
+(53, 'Thriller'),
+(10752, 'Guerre'),
+(37, 'Western');
+
 INSERT INTO BelongTo (id_user, id_group) VALUES
 (1,1),
 (2,2),

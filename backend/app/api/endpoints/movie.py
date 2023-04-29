@@ -1,3 +1,4 @@
+from urllib.parse import unquote
 from fastapi import APIRouter, Depends, HTTPException
 from app.database import SessionLocal
 from sqlalchemy.orm import Session
@@ -35,6 +36,10 @@ async def add_watched_movie(new_watched : WatchedModel, db: Session = Depends(ge
 async def remove_watched_movie(to_delete_watched : WatchedModel, db: Session = Depends(get_db)):
     return watchedService.remove_watched_movie(to_delete_watched, db)
 
+@router.get("/get_watched")
+async def get_watched(email : str, db : Session = Depends(get_db)):
+    mail: str = unquote(email)
+    return watchedService.get_watched(mail, db)
 
 # récupérer liste de films vus par l'utilisateur
 # récupérer genre de films vus par l'utilsateur

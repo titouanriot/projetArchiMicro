@@ -4,6 +4,7 @@ import { Genre } from 'src/app/models/Genre';
 import { User } from 'src/app/models/user';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { environment } from 'src/environment/environment';
+import { Movie } from '../models/movie';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ export class UserService {
 
   api_url : string = "";
   user_endpoint = "/user";
+  movie_endpoint = "/movie";
   connectedUser : User | null = null;
 
   constructor(private http : HttpClient, private authService : AuthenticationService) {
@@ -19,6 +21,21 @@ export class UserService {
     this.authService.user.subscribe(
       u => this.connectedUser = u
     )
+  }
+
+  async get_user_id(email : string) : Promise<number> {
+    const promise = new Promise<number>((resolve, reject) => {
+      let params = new HttpParams().set("email", encodeURIComponent(email))
+      this.http.get<number>(this.api_url + this.user_endpoint + "/get_id",{params : params}).subscribe({
+        next: (res : number) => {
+          resolve(res);
+        },
+        error : (err : any) => {
+          reject(err);
+        }
+      });
+    });
+    return promise;
   }
 
   async has_preferences(email : string) : Promise<boolean> {
@@ -35,7 +52,6 @@ export class UserService {
     });
     return promise;
   }
-
 
   async setPreferences(genres : Array<Genre>){
     const promise = new Promise<boolean>((resolve, reject) => {
@@ -70,4 +86,19 @@ export class UserService {
     return promise;
   }
 
+  async getWatched(email : string){
+    const promise = new Promise<Movie[]>((resolve, reject) => {
+      let params = new HttpParams().set("email", encodeURIComponent(email))
+      this.http.get<Movie[]>(this.api_url + this.movie_endpoint + "/get_watched", {params : params}).subscribe({
+        next: (res : Movie[]) => {
+          resolve(res);
+        },
+        error : (err : any) => {
+          reject(err);
+        }
+      });
+    });
+    return promise;
+  }
+  
 }

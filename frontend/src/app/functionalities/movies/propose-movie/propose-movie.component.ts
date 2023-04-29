@@ -1,7 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Movie } from '../../models/movie';
 import { MoviesService } from '../../services/movies.service';
 import { environment } from 'src/environment/environment';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+
+export interface DialogData {
+  movieName: string;
+}
 
 @Component({
   selector: 'app-propose-movie',
@@ -15,7 +20,7 @@ export class ProposeMovieComponent implements OnInit{
   indexSelectedMovie = 0;
   api_url_tmdb = "";
 
-  constructor(private moviesService : MoviesService){}
+  constructor(private moviesService : MoviesService, public dialog: MatDialog){}
 
   ngOnInit(): void {
     this.api_url_tmdb = environment.api_url_tmdb;
@@ -23,10 +28,16 @@ export class ProposeMovieComponent implements OnInit{
     this.selectedMovie = this.listMovies[0];
   }
 
-  addToFavorite(movie: Movie){
-    console.log("button add To Favorite");
-    this.moviesService.addToFavorite(movie);
+  addToWatched(): void {
+    const dialogRef = this.dialog.open(DialogOverviewProposeMovieDialog, {
+      data: {movieName: this.selectedMovie.title},
+    });
+
+    dialogRef.afterClosed().subscribe(note => {
+      this.moviesService.addToWatched(this.selectedMovie, note);
+    });
   }
+
 
   removeFromList(){
     let movie_to_delete = this.selectedMovie;
@@ -64,4 +75,22 @@ export class ProposeMovieComponent implements OnInit{
     getImage(){
       return this.api_url_tmdb + this.selectedMovie.poster_path;
     }
+}
+
+
+@Component({
+  selector: 'dialog-overview-example-dialog',
+  templateUrl: './dialog-overview-example-dialog.html',
+})
+export class DialogOverviewProposeMovieDialog {
+  constructor(
+    public dialogRef: MatDialogRef<DialogOverviewProposeMovieDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+  ) {}
+
+  note = 5;
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
 }

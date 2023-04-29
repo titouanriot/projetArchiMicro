@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.api.endpoints import user, auth, genre, movie
+from app.api.endpoints import user, auth, genre, movie, group
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
@@ -11,6 +11,7 @@ app = FastAPI()
 
 app.include_router(user.router)
 app.include_router(auth.router)
+app.include_router(group.router)
 app.include_router(genre.router)
 app.include_router(movie.router)
 

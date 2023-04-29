@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>{{data.movieName}}</h1>
+<div mat-dialog-content>
+  <p>Notez ce film ! </p>
+  <mat-form-field appearance="fill">
+    <mat-label>Donnez une note entre 0 et 10 !  </mat-label>
+    <mat-slider min="0" max="10" step="1">
+        <input matSliderThumb matInput [(ngModel)]="note">
+    </mat-slider>
+  </mat-form-field>
+</div> 
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button [mat-dialog-close]="note" cdkFocusInitial>Ok</button>
+</div>

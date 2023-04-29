@@ -1,4 +1,5 @@
 export interface Movie {
+    id_movie:number;
     original_title : string;
     title : string;
     language : LanguageE;

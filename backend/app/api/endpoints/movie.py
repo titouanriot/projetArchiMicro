@@ -32,6 +32,10 @@ async def load_movies(db: Session = Depends(get_db)):
 async def add_watched_movie(new_watched : WatchedModel, db: Session = Depends(get_db)):
     return watchedService.add_watched_movie(new_watched, db)
 
+@router.delete("/remove_watched_movie")
+async def remove_watched_movie(to_delete_watched : WatchedModel, db: Session = Depends(get_db)):
+    return watchedService.remove_watched_movie(to_delete_watched, db)
+
 
 # récupérer liste de films vus par l'utilisateur
 # récupérer genre de films vus par l'utilsateur

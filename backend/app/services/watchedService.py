@@ -38,3 +38,17 @@ class WatchedService :
         except SQLAlchemyError as e:
             db.rollback()
             raise HTTPException(status_code=500, detail="An error occured")
+        
+    
+    def remove_watched_movie(self, to_delete_watched : WatchedModel, db : Session):
+        try:
+            if (self.check_if_watched_exists(to_delete_watched.id_user, to_delete_watched.id_movie, db)):
+                watched_db = db.query(WatchedSchema).filter_by(id_user=to_delete_watched.id_user, id_movie=to_delete_watched.id_movie).first()
+                db.delete(watched_db)
+                db.commit()
+                return {"result" : "Watched Movie Deleted"}
+            else:
+                    return { "result" : "Watched Movie Not Deleted : Watched Movie not existing"}
+        except SQLAlchemyError as e:
+            db.rollback()
+            raise HTTPException(status_code=500, detail="An error occured")

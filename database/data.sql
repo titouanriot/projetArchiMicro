@@ -29,7 +29,7 @@ INSERT INTO Director (director_name) VALUES
 
 
 /* TABLE OK: tous les genres de TMDB renseignés */
-INSERT INTO Genre (genre_name) VALUES
+INSERT INTO Genre (id_genre, genre_name) VALUES
 (28, 'Action'),
 (12, 'Aventure'),
 (16, 'Animation'),

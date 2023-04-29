@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS BelongTo(
     id_user INT NOT NULL,
     id_group INT NOT NULL,
     CONSTRAINT fk_user_group FOREIGN KEY (id_user) REFERENCES User(id_user),
-    CONSTRAINT fk_group_user FOREIGN KEY (id_group) REFERENCES Groupe(id_group)
+    CONSTRAINT fk_group_user FOREIGN KEY (id_group) REFERENCES Groupe(id_group) ON DELETE cascade
 );
 
 CREATE TABLE IF NOT EXISTS Watched(

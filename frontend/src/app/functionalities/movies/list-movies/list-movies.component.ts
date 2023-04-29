@@ -69,7 +69,9 @@ export class ListMoviesComponent implements OnInit, AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe(note => {
-      this.moviesService.addToWatched(movie, note);
+      if (note){
+        this.moviesService.addToWatched(movie, note);
+      }
     });
   }
 

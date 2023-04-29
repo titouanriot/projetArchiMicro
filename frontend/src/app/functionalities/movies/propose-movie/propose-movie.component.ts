@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, HostBinding, Inject, OnInit } from '@angular/core';
 import { Movie } from '../../models/movie';
 import { MoviesService } from '../../services/movies.service';
 import { environment } from 'src/environment/environment';
@@ -14,6 +14,8 @@ export interface DialogData {
   styleUrls: ['./propose-movie.component.scss']
 })
 export class ProposeMovieComponent implements OnInit{
+
+  @HostBinding('class') className = 'darkMode';
 
   listRecommendedMovies: Movie[] = <Movie[]>[];
   selectedMovie! : Movie;
@@ -36,7 +38,9 @@ export class ProposeMovieComponent implements OnInit{
     });
 
     dialogRef.afterClosed().subscribe(note => {
-      this.moviesService.addToWatched(this.selectedMovie, note);
+      if (note){
+        this.moviesService.addToWatched(this.selectedMovie, note);
+      }
     });
   }
 
@@ -79,6 +83,7 @@ export class ProposeMovieComponent implements OnInit{
       this.indexSelectedMovie = this.indexSelectedMovie + 1; 
       this.selectedMovie = this.listRecommendedMovies[this.indexSelectedMovie]; 
     }
+    console.log(this.selectedMovie)
   }
     getImage(){
       return this.api_url_tmdb + this.selectedMovie.poster_path;

@@ -1,0 +1,64 @@
+<mat-form-field class="spacer">
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Lord Of The Rings" #input>
+</mat-form-field>
+ 
+<table mat-table
+       [dataSource]="listMoviesToDisplay" multiTemplateDataRows
+       class="mat-elevation-z8">
+  <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
+    <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+    <td mat-cell *matCellDef="let movie"> {{movie[column]}} </td>
+  </ng-container>
+  <ng-container matColumnDef="expand">
+    <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+    <td mat-cell *matCellDef="let movie">
+      <button mat-icon-button aria-label="expand row" (click)="(expandedElement = expandedElement === movie ? null : movie); $event.stopPropagation()">
+        <mat-icon *ngIf="expandedElement !== movie">keyboard_arrow_down</mat-icon>
+        <mat-icon *ngIf="expandedElement === movie">keyboard_arrow_up</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+  <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+  <ng-container matColumnDef="expandedDetail">
+    <td mat-cell *matCellDef="let movie" [attr.colspan]="columnsToDisplayWithExpand.length">
+      <div class="example-element-detail container"
+           [@detailExpand]="movie == expandedElement ? 'expanded' : 'collapsed'">
+            <div layout="column">
+              <div flex> <span class="info-title"> Temps : </span> {{movie.runtime}} </div>
+              <div flex> <span class="info-title">Date de Sortie : </span>{{movie.release_date}}</div>
+              <div flex> <span class="info-title">Note : </span>{{movie.vote_average}}</div>
+              <div flex> <span class="info-title">Nombre de Votes : </span>{{movie.vote_count}}</div>
+            </div>
+            <div layout="row">
+              {{movie.overview}}
+            </div>
+            <div layout="row" class="right">
+              <div class="example-button-container">
+                <!-- Ajouter aux films vu -->
+                <button mat-fab extended color="warn" (click)="addToWatched(movie)">
+                      J'ai vu ! 
+                </button> 
+                <!-- Retirer de la liste-->
+                <!-- <button mat-mini-fab color="accent" (click)="removeFromList(movie)" aria-label="Example icon button with a plus one icon">
+                  <mat-icon>remove</mat-icon>
+                </button> -->
+              </div>
+            </div>
+
+          </div>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+  <tr mat-row *matRowDef="let movie; columns: columnsToDisplayWithExpand;"
+      class="example-element-row"
+      [class.example-expanded-row]="expandedElement === movie"
+      (click)="expandedElement = expandedElement === movie ? null : movie">
+  </tr>
+  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+  <tr class="mat-row" *matNoDataRow>
+    <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+  </tr>
+</table>
+<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of listMovies"></mat-paginator>

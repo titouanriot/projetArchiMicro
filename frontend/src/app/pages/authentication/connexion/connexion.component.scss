@@ -1,0 +1,44 @@
+//@import "../../../../node_modules/@angular/material/prebuilt-themes/indigo-pink.css";
+//@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+
+section {
+    padding: 30px;
+}
+
+p {
+    padding: 30px;
+}
+
+:host {
+    display: flex;
+    justify-content: center;
+    margin: 100px 0px;
+}
+
+mat-form-field {
+    width: 100%;
+    min-width: 300px;
+}
+
+mat-card-title,
+mat-card-content {
+    display: flex;
+    justify-content: center;
+    padding: 30px;
+}
+
+mat-hint {
+    color: red;
+}
+
+.error {
+    padding: 16px;
+    color: white;
+    background-color: red;
+}
+
+.button {
+    display: flex;
+    justify-content: flex-end;
+}

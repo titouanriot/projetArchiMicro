@@ -1,0 +1,48 @@
+<mat-toolbar color="accent">
+    <div class="red">{{title}}</div>
+    <span class="spacer"></span>
+    <!-- retour menu -->
+    <button mat-fab extended color="primary" routerLink="/app/propose-movie">
+    <mat-icon>home</mat-icon>
+        Accueil
+    </button>
+
+    <!-- if not connected -->
+    <span *ngIf="!isConnected; else elseBlock">
+        <button mat-fab extended color="primary" routerLink="/connexion">
+            <mat-icon>person</mat-icon>
+                Connexion
+        </button>
+        <button mat-fab extended color="primary" routerLink="/inscription">
+            <mat-icon>person_add</mat-icon>
+                Inscription
+        </button> 
+    </span>
+    
+     <!-- if connected -->
+    <ng-template #elseBlock>
+        <button mat-fab extended color="primary">   
+            <mat-icon>groups</mat-icon>
+                Groupes
+        </button>
+        
+        <button mat-fab extended color="primary" routerLink="/app/menu">
+            <mat-icon>manage_accounts</mat-icon>
+                Compte
+        </button>
+
+        <!-- if admin -->
+        <span *ngIf="isAdmin">
+            <button mat-fab extended color="primary">
+                <mat-icon>admin_panel_settings</mat-icon>
+                    Administration
+            </button>
+        </span>
+    
+        <button (click)="disconnect()" mat-fab extended color="primary">
+            <mat-icon>input</mat-icon>
+                Déconnexion
+        </button>
+    </ng-template>    
+
+</mat-toolbar>

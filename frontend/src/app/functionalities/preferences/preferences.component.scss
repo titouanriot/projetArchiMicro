@@ -1,0 +1,36 @@
+@import "../../../../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+.container {
+    position: relative;
+    margin-left: 10%;
+    width: 80%;
+}
+
+.example-section {
+    display: flex;
+    flex-direction: column;
+    margin: 12px 0;
+}
+
+.example-margin {
+    margin: 0 12px;
+}
+
+ul {
+    -webkit-column-count: 4;
+    -moz-column-count: 4;
+    column-count: 4;
+    list-style-type: none;
+    margin-top: 4px;
+}
+
+button {
+    width: auto;
+    justify-content: flex-end;
+    align-self: flex-end;
+    margin-bottom: 10px;
+}
+
+.error{
+    color: red;
+}

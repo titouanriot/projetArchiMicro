@@ -1,0 +1,9 @@
+uvicorn
+fastapi
+sqlalchemy 
+mysql-connector-python
+python-multipart
+python-dotenv
+python-jose
+tmdbv3api
+pandas

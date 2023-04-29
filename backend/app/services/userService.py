@@ -53,6 +53,17 @@ class UserService:
     def checkIfExistsById(self, id : int, db : Session):
         doesExist = db.query(exists().where(UserSchema.id_user == id)).scalar()
         return doesExist
+    
+    def getUserId(self, email : str, db : Session):
+        try : 
+            if (self.checkIfExists(email, db)):
+                user_db = db.query(UserSchema).filter_by(email=email).first()
+                return user_db.id_user
+            else : 
+                raise HTTPException(status_code=404, detail="This user does not exist")
+        except SQLAlchemyError as e:
+            db.rollback()
+            raise HTTPException(status_code=500, detail="An error occured")
 
     def createUser(self, new_user : UserBase, db : Session):
         try:

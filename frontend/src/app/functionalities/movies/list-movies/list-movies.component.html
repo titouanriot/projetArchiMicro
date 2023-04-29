@@ -36,13 +36,13 @@
             <div layout="row" class="right">
               <div class="example-button-container">
                 <!-- Ajouter aux films vu -->
-                <button mat-icon-button (click)="addToFavorite(movie)" color="warn" aria-label="Example icon button with a heart icon">
-                  <mat-icon>favorite</mat-icon>
-                </button>
+                <button mat-fab extended color="warn" (click)="addToWatched(movie)">
+                      J'ai vu ! 
+                </button> 
                 <!-- Retirer de la liste-->
-                <button mat-mini-fab color="accent" (click)="removeFromList(movie)" aria-label="Example icon button with a plus one icon">
+                <!-- <button mat-mini-fab color="accent" (click)="removeFromList(movie)" aria-label="Example icon button with a plus one icon">
                   <mat-icon>remove</mat-icon>
-                </button>
+                </button> -->
               </div>
             </div>
 

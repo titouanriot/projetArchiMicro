@@ -5,13 +5,17 @@ from typing import List
 
 from app.recommendation_model.recommend import recommend_movies as rm
 from app.services.movieService import MovieService
+from app.models.watchedModel import WatchedModel
+from app.services.watchedService import WatchedService
 
 router = APIRouter(
     prefix='/movie',
     tags = ['movie']
 )
 
-service = MovieService()
+movieService = MovieService()
+watchedService = WatchedService()
+
 def get_db():
     db = SessionLocal()
     try : 
@@ -21,7 +25,16 @@ def get_db():
 
 @router.put("/load_movies")
 async def load_movies(db: Session = Depends(get_db)):
-    return service.load_movies(db, 20)
+    return movieService.load_movies(db, 20)
+
+
+@router.post("/add_watched_movie")
+async def add_watched_movie(new_watched : WatchedModel, db: Session = Depends(get_db)):
+    return watchedService.add_watched_movie(new_watched, db)
+
+@router.delete("/remove_watched_movie")
+async def remove_watched_movie(to_delete_watched : WatchedModel, db: Session = Depends(get_db)):
+    return watchedService.remove_watched_movie(to_delete_watched, db)
 
 
 # récupérer liste de films vus par l'utilisateur

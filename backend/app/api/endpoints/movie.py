@@ -46,8 +46,8 @@ async def recommend_movies_by_user(id_user: int, db: Session = Depends(get_db)):
     # genre_lists = [['Drame']]
     genre_names_list = [movieService.get_preferred_genres_names_by_user(id_user, db)]
     print(genre_names_list)
-    recommend_movie_ids_list = recommend(movie_ids_list, genre_names_list, db)
-    print(recommend_movie_ids_list)
-    recommend_movies = movieService.get_movies_from_id_list(recommend_movie_ids_list, db)
-    print(recommend_movies)
-    return recommend_movies
+    recommended_movie_ids_list = recommend(movie_ids_list, genre_names_list, db)
+    print(recommended_movie_ids_list)
+    recommended_movies = movieService.get_movies_from_id_list(recommended_movie_ids_list, db)
+    print(recommended_movies)
+    return recommended_movies

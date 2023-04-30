@@ -48,3 +48,11 @@ async def recommend_movies_by_user(id_user: int, db: Session = Depends(get_db)):
     recommended_movie_ids_list = recommend(movie_ids_list, genre_names_list, db)
     recommended_movies = movieService.get_movies_from_id_list(recommended_movie_ids_list, db)
     return recommended_movies
+
+@router.get("/group_recommendations/{id_group}")
+async def recommend_movies_by_group(id_group: int, db: Session = Depends(get_db)):
+    group_movie_ids_list = movieService.get_watched_movie_ids_by_group(id_group, db)
+    group_genre_names_list = movieService.get_preferred_genres_names_by_group(id_group, db)
+    recommended_movie_ids_list = recommend(group_movie_ids_list, group_genre_names_list, db)
+    recommended_movies = movieService.get_movies_from_id_list(recommended_movie_ids_list, db)
+    return recommended_movies

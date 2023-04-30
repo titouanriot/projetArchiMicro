@@ -1,1 +1,32 @@
-<p>admin-menu works!</p>
+<mat-form-field class="spacer">
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Jean" #input>
+</mat-form-field>
+<table mat-table
+       [dataSource]="listUsersToDisplay" multiTemplateDataRows
+       class="mat-elevation-z8">
+  <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
+    <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+    <td mat-cell *matCellDef="let user"> {{user[column]}} </td>
+  </ng-container>
+  <ng-container matColumnDef="expand">
+    <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+    <td mat-cell *matCellDef="let user">
+        <button mat-fab extended color="warn" (click)="grantAdmin(user)" [disabled]="user.is_admin">
+            Faire passer Admin ! 
+      </button>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="expandedDetail">
+    <td mat-cell *matCellDef="let user">
+    </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+  <tr mat-row *matRowDef="let user; columns: columnsToDisplayWithExpand;"
+      [class.example-expanded-row]="expandedElement === user">
+  </tr>
+  <tr class="mat-row" *matNoDataRow>
+    <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+  </tr>
+</table>
+<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of listUsers"></mat-paginator>

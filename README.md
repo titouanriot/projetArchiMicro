@@ -33,6 +33,8 @@ For this part, you'll have to launch in dev mode every part of the app, which ar
 ### Frontend
 
 Requirements : NODE.JS with Angular CLI
+In the front folder, go to src/environment/environment.ts and add your TMDB API KEY.
+
 You need to install the dependencies using `npm install` command in the frontend folder.
 You can start the frontend Service with the command `ng serve` in the same folder.
 
@@ -54,8 +56,9 @@ SECRET_KEY=[key]
 ALGORITHM=[algorithm]
 
 
-EXAMPLES FOR SECRET_KEY : SECRET_KEY=MYSUPERKEY
-EXAMOKE FOR ALGORITHM : ALGORITHM=HS256
+EXAMPLE FOR SECRET_KEY : SECRET_KEY=MYSUPERKEY
+
+EXAMPLE FOR ALGORITHM : ALGORITHM=HS256
 
 To Launch it, go on the backend folder and execute `uvicorn app.main:app --port 8000 --reload` (if you do not have the packages installed, you can start the .venv).
 Accessible at `http://localhost:8000`.

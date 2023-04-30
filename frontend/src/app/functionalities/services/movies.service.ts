@@ -111,34 +111,4 @@ export class MoviesService {
     });
     return promise;
   }
-
-
-  // DATA : Movie[] = [
-  //   {
-  //     id_movie : 76600,
-  //     original_title : "titre original 1",
-  //     title : "titre 1",
-  //     language : LanguageE.fr,
-  //     category : CategoryE.action,
-  //     realease_date : new Date(),
-  //     runtime : 180,
-  //     vote_average : 86,
-  //     vote_count : 1500,
-  //     overview : "Un super premier film !",
-  //     poster_path : "ahMxyHMSJXingQr4yJBMzMU9k42.jpg"
-  //   },
-  //   {
-  //     id_movie : 2,
-  //     original_title : "titre original 2",
-  //     title : "titre 2",
-  //     language : LanguageE.en,
-  //     category : CategoryE.comedy,
-  //     realease_date : new Date(),
-  //     runtime : 160,
-  //     vote_average : 94,
-  //     vote_count : 3400,
-  //     overview : "Arboin le lover!",
-  //     poster_path : "hYeB9GpFaT7ysabBoGG5rbo9mF4.jpg"
-  //   }
-  // ]
 }

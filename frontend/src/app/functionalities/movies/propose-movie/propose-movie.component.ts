@@ -26,10 +26,14 @@ export class ProposeMovieComponent implements OnInit{
 
   ngOnInit(): void {
     this.api_url_tmdb = environment.api_url_tmdb;
-    this.listRecommendedMovies = this.moviesService.listRecommendedMovies;
-    if (this.listRecommendedMovies.length > 0 ){
-      this.selectedMovie = this.listRecommendedMovies[0];
-    }
+    this.moviesService.getMovieSelection().then(
+      listMovies => {
+        this.listRecommendedMovies = this.moviesService.listRecommendedMovies;
+        if (this.listRecommendedMovies.length > 0 ){
+          this.selectedMovie = this.listRecommendedMovies[0];
+        }
+      }
+    );
   }
 
   addToWatched(): void {

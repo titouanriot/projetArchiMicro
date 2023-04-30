@@ -32,26 +32,13 @@ export class WatchedComponent {
     this.authService.user.subscribe(u => this.connectedUser = u);
   }
 
-  ngOnInit(): void {
-    
-    console.log(this.userService.getWatched(this.connectedUser!.email))
-    
+  ngOnInit(): void {    
     this.userService.getWatched(this.connectedUser!.email).then(
       movies => {
         if (movies.length > 0) {
-          console.log(movies)
-
           movies.forEach(movie => {
-            console.log(movie)
             this.getImageCache(movie)
-            
-            this.watchedMovies?.push({...movie})
-            console.log(this.watchedMovies);
-
-            // console.log("ksf");
-            
-            // console.log(this.watchedMovie);
-            
+            this.watchedMovies?.push({...movie})            
             }
           )
         }
@@ -60,25 +47,16 @@ export class WatchedComponent {
   }
 
   getImageCache(movie: Movie){
-    
     this.http.get(this.api_url_tmdb + movie.poster_path.substring(1)).subscribe(
       (data) => {
       },
       (error: HttpErrorResponse) => {
-        console.log("erreur",error);
         if (error.status === 404) {
-
           movie.poster_path = "assets/imageNotFound.png"
           this.movieCache?.push({...movie});
-          
-        } else {
-          
-          console.log("entrée ELSE 404");
-          
+        } else {        
           movie.poster_path = this.api_url_tmdb + movie.poster_path.substring(1);
-
           this.movieCache?.push({...movie});
-
         }
       }
     );

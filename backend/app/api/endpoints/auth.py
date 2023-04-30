@@ -1,3 +1,4 @@
+from urllib.parse import unquote
 from fastapi import APIRouter, Depends, status, HTTPException
 from app.services.userService import UserService
 from app.database import SessionLocal
@@ -70,5 +71,9 @@ async def user_login(data: UserLogin, db : Session = Depends(get_db)):
     access_token = create_access_token(
         data={"email": user.email}, expires_delta=timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
     )
-
     return {'token': access_token, 'email': user.email}
+
+@router.get("/isAdmin")
+async def is_admin(email : str, db : Session = Depends(get_db)):
+    mail: str = unquote(email)
+    return service.is_admin(mail,db)

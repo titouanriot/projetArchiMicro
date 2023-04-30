@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ProposeMovieComponent, DialogOverviewProposeMovieDialog } from './movies/propose-movie/propose-movie.component';
 import { MenuComponent } from './menu/menu.component';
 import { WatchedComponent } from './watched/watched.component';
+import { AdminMenuComponent } from './admin/admin-menu/admin-menu.component';
 import { GroupesComponent } from './groups/groupes/groupes.component';
 import { GroupGestionComponent } from './groups/group-gestion/group-gestion.component';
 import { GroupDetailComponent } from './groups/group-detail/group-detail.component';
@@ -23,6 +24,7 @@ import { GroupDetailComponent } from './groups/group-detail/group-detail.compone
         DialogOverviewProposeMovieDialog,
         DialogOverviewListMoviesDialog,
         WatchedComponent,
+        AdminMenuComponent,
         GroupesComponent,
         GroupGestionComponent,
         GroupDetailComponent

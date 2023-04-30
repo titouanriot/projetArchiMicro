@@ -37,9 +37,6 @@ async def get_user_id(email : str,db : Session= Depends(get_db)):
 
 @router.get("/get_by_email")
 async def get_by_email(email : str, db : Session = Depends(get_db)):
-    """
-        Get the first user in database
-    """
     doesExist = service.checkIfExists(email, db)
     if doesExist :
         item = db.query(UserSchema).filter_by(email=email).first()
@@ -48,37 +45,13 @@ async def get_by_email(email : str, db : Session = Depends(get_db)):
     else:
         raise HTTPException(status_code=404, detail="This user does not exist")
 
-
-
-
-# @router.post("/add_user")
-# async def add_user(new_user : UserBase, db : Session = Depends(get_db)):
-#     """
-#         Add a user in the database
-#     """
-#     return service.createUser(new_user, db)
-
 @router.post("/add_user", response_model=UserBase, status_code=status.HTTP_201_CREATED)
 async def add_user(new_user : UserBase, db : Session = Depends(get_db)):
     """
         Add a user in the database
     """
     service.createUser(new_user, db)
-    return new_user
-    # result = service.createUser(new_user, db)
-    # if 'result' in result.keys():
-    #     return new_user
-    # else:
-    #     if result['Error'] == 'This user does already exist':
-    #         raise HTTPException(
-    #             status_code=status.HTTP_400_BAD_REQUEST,
-    #             detail="User already exists"
-    #         )
-    #     else:
-    #         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        
-
-
+    return new_user 
 
 @router.delete("/delete_user")
 async def delete_user(email : str, db : Session = Depends(get_db)):
@@ -110,3 +83,10 @@ async def set_preferences(email : Annotated[str, Body()], genres : List[GenreBas
 async def get_preferences(email : str, db : Session = Depends(get_db)):
     mail: str = unquote(email)
     return service.get_preferences(mail, db)
+
+
+@router.post("/grant_admin")
+async def grant_admin(email_user_conected : Annotated[str, Body()], email_other_user : Annotated[str, Body()], db : Session = Depends(get_db)):
+    mail_user_connected : str = unquote(email_user_conected)
+    mail_other_user : str = unquote(email_other_user)
+    return service.grant_admin(mail_user_connected, mail_other_user, db)

@@ -41,18 +41,18 @@ async def get_watched(email : str, db : Session = Depends(get_db)):
     mail: str = unquote(email)
     return watchedService.get_watched(mail, db)
 
-# récupérer liste de films vus par l'utilisateur
-# récupérer genre de films vus par l'utilsateur
 @router.get("/user_recommendations/{id_user}")
 async def recommend_movies_by_user(id_user: int, db: Session = Depends(get_db)):
-    # movie_lists = [[76600], [76600, 640146], [640146]]
     movie_ids_list = [movieService.get_watched_movie_ids_by_user(id_user, db)]
-    print(movie_ids_list)
-    # genre_lists = [['Drame']]
     genre_names_list = [movieService.get_preferred_genres_names_by_user(id_user, db)]
-    print(genre_names_list)
     recommended_movie_ids_list = recommend(movie_ids_list, genre_names_list, db)
-    print(recommended_movie_ids_list)
     recommended_movies = movieService.get_movies_from_id_list(recommended_movie_ids_list, db)
-    print(recommended_movies)
+    return recommended_movies
+
+@router.get("/group_recommendations/{id_group}")
+async def recommend_movies_by_group(id_group: int, db: Session = Depends(get_db)):
+    group_movie_ids_list = movieService.get_watched_movie_ids_by_group(id_group, db)
+    group_genre_names_list = movieService.get_preferred_genres_names_by_group(id_group, db)
+    recommended_movie_ids_list = recommend(group_movie_ids_list, group_genre_names_list, db)
+    recommended_movies = movieService.get_movies_from_id_list(recommended_movie_ids_list, db)
     return recommended_movies

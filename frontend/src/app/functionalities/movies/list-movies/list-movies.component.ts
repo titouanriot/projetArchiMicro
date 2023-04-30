@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import {Movie} from '../../models/movie';
 import { MoviesService } from '../../services/movies.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
@@ -22,19 +22,14 @@ export interface DialogData {
     ]),
   ],
 })
-export class ListMoviesComponent implements OnInit, AfterViewInit {
+export class ListMoviesComponent implements OnInit {
 
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   
-  listMovies: Movie[] = <Movie[]>[];
+  listRecommendedMovies: Movie[] = <Movie[]>[];
   listMoviesToDisplay : any;
-
-  ngAfterViewInit() {
-    this.listMoviesToDisplay.paginator = this.paginator;
-    this.listMoviesToDisplay.sort = this.sort;
-  }
    
   columnsToDisplay = ['original_title', 'title', 'language'];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
@@ -50,9 +45,23 @@ export class ListMoviesComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.listMovies = this.moviesService.listMovies;
-    console.log(this.listMovies)
-    this.listMoviesToDisplay = new MatTableDataSource(this.listMovies);
+    this.moviesService.getMovieSelection().then(
+      listMovies => {
+        this.listRecommendedMovies = this.moviesService.listRecommendedMovies;
+        this.listMoviesToDisplay = new MatTableDataSource(this.listRecommendedMovies);
+        this.listMoviesToDisplay.paginator = this.paginator;
+        this.listMoviesToDisplay.sort = this.sort;
+      }
+    )
+  }
+
+  async getNewBatch(){
+    await this.moviesService.getNewBatch().then(
+      _ => {
+        this.listRecommendedMovies = this.moviesService.listRecommendedMovies;
+        this.listMoviesToDisplay = new MatTableDataSource(this.listRecommendedMovies);
+      }
+    )
   }
 
   addToWatched(movie: Movie){
@@ -61,17 +70,10 @@ export class ListMoviesComponent implements OnInit, AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe(note => {
-      this.moviesService.addToWatched(movie, note);
-    });
-  }
-
-  removeFromList(movie_to_delete : Movie){
-    let res = this.moviesService.removeFromList(movie_to_delete);
-    res.then(
-      _ => {
-        this.listMoviesToDisplay._updateChangeSubscription();
+      if (note){
+        this.moviesService.addToWatched(movie, note);
       }
-    )
+    });
   }
 }
 

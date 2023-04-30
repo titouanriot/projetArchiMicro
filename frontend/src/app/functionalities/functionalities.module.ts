@@ -10,6 +10,9 @@ import { ProposeMovieComponent, DialogOverviewProposeMovieDialog } from './movie
 import { MenuComponent } from './menu/menu.component';
 import { WatchedComponent } from './watched/watched.component';
 import { AdminMenuComponent } from './admin/admin-menu/admin-menu.component';
+import { GroupesComponent } from './groups/groupes/groupes.component';
+import { GroupGestionComponent } from './groups/group-gestion/group-gestion.component';
+import { GroupDetailComponent } from './groups/group-detail/group-detail.component';
 
 
 @NgModule({
@@ -21,7 +24,10 @@ import { AdminMenuComponent } from './admin/admin-menu/admin-menu.component';
         DialogOverviewProposeMovieDialog,
         DialogOverviewListMoviesDialog,
         WatchedComponent,
-        AdminMenuComponent
+        AdminMenuComponent,
+        GroupesComponent,
+        GroupGestionComponent,
+        GroupDetailComponent
     ],
     exports: [],
     imports : [

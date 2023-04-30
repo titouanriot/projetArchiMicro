@@ -41,6 +41,7 @@ async def get_watched(email : str, db : Session = Depends(get_db)):
     mail: str = unquote(email)
     return watchedService.get_watched(mail, db)
 
+
 @router.get("/user_recommendations/{id_user}")
 async def recommend_movies_by_user(id_user: int, db: Session = Depends(get_db)):
     movie_ids_list = [movieService.get_watched_movie_ids_by_user(id_user, db)]

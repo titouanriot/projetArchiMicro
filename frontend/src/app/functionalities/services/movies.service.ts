@@ -18,6 +18,8 @@ export class MoviesService {
   connectedUser : User | null = null;
   api_url : string = "";
   movie_endpoint = "/movie";
+  listWatchedMovies : Watched[] = <Watched[]>[];
+
   
   constructor(private http : HttpClient, private authService : AuthenticationService, private userService : UserService) { 
     this.api_url = environment.backendBaseUrl;
@@ -89,6 +91,12 @@ export class MoviesService {
       });
   }
 
+  remove_watched_movie(watched_movie : Watched){
+    
+    return this.http.delete<boolean>(this.api_url + this.movie_endpoint + "/remove_watched_movie",{body : watched_movie})
+  }
+
+ 
   //implement save data in BDD
   // async removeFromList(movie_to_delete : Movie){
   //   let index = this.listRecommendedMovies.findIndex(movie => movie == movie_to_delete);

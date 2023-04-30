@@ -51,3 +51,11 @@ async def add_user_to_group(group_name: Annotated[str, Body(min_length=1, embed=
                             db: Session = Depends(get_db),\
                             user: User = Depends(get_user_from_token)):
     return service.add_user_to_group(group_name, email, db, user)
+
+@router.get("/{id_group}/members")
+async def get_group_members_from_id(id_group: int, db: Session = Depends(get_db), user: User = Depends(get_user_from_token)):
+    return service.get_group_members_from_id(id_group, db, user)
+
+@router.get("/{id_group}")
+async def get_group_from_id(id_group: int, db: Session = Depends(get_db), user: User = Depends(get_user_from_token)):
+    return service.get_group_from_id(id_group, db, user)

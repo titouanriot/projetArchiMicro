@@ -1,0 +1,28 @@
+<section>
+    <h1>{{ groupInfo.group_name }}</h1>
+
+    <table mat-table [dataSource]="groupMembers">
+
+        <ng-container matColumnDef="memberMail">
+            <th mat-header-cell *matHeaderCellDef>Nom du membre</th>
+            <td mat-cell *matCellDef="let membre">{{membre.email}}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</section>
+<section>
+    <form (ngSubmit)="addUser()">
+        <p>
+            <mat-form-field>
+                <input name="userEmail" matInput [(ngModel)]="userEmail" placeholder="Email utilisateur">
+            </mat-form-field>
+            <button mat-flat-button type="submit">Ajouter</button>
+            <p *ngIf="error" class="error">L'utilisateur n'existe pas ou appartient déjà au groupe</p>
+        <!-- </p> -->
+    </form>
+</section>
+<section>
+    <button mat-flat-button color="warn" (click)="deleteGroup()">Supprimer le groupe</button>
+</section>

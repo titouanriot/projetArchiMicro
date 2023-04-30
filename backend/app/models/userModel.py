@@ -23,6 +23,12 @@ class User(UserBase):
     class Config:
         orm_mode = True
 
+class UserInfo(BaseModel):
+    email : str
+    id_user : int
+    class Config:
+        orm_mode = True
+
 class UserLogged(BaseModel):
     email: str
     token : str

@@ -9,7 +9,7 @@
                 </mat-card-header>
                 <img mat-card-image src="{{getImage(movie)}}">
                 <mat-card-actions>
-                    <button mat-button>Bouton 1 </button>
+                    <button mat-button (click)="remove_watched_movie(movie)">Remove</button>
                     <button mat-button>BOuton 2</button>
                 </mat-card-actions>
             </mat-card>

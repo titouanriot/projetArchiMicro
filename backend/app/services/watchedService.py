@@ -81,3 +81,5 @@ class WatchedService :
                 raise HTTPException(status_code=404, detail="This user does not exist")
         except SQLAlchemyError as e:
             raise HTTPException(status_code=500, detail="An error occured")
+    
+

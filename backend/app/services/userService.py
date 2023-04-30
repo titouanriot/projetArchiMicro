@@ -48,7 +48,10 @@ class UserService:
         try : 
             users = db.query(UserSchema).all()
             if users : 
-                return users
+                new_list = []
+                for user in users : 
+                    new_list.append(UserBase.from_orm(user))
+                return new_list
             else : 
                 raise HTTPException(status_code=404, detail="Users do not exist")
         except SQLAlchemyError as e:

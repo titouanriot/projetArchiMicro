@@ -5,6 +5,9 @@ Thanks for having download our APP, and we hope you will enjoy to use it and sha
 
 ## How to deploy the APP in PROD
 
+
+The app can be deployed using docker following the next steps.
+All the configuration files have been created and tested on MacOS 13.3.1 and Windows 10 22H2.
 You MUST have a Docker version installed on your machine.
 At the root of the project (same location as the docker-compose.yml file), you must create a file called `.env` in which you have to put the different information inside : 
 

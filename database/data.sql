@@ -31,11 +31,3 @@ INSERT INTO Logs (id_user, date, action) VALUES
 (2, '2022-04-21 09:45:00', 'Added a new movie'),
 (3, '2022-04-22 16:15:00', 'Updated profile'),
 (1, '2022-04-23 11:00:00', 'Logged out');
-
-INSERT INTO Preferences (id_user, id_genre) VALUES 
-(1, 18),
-(1, 28),
-(2, 18),
-(2, 53),
-(3, 28),
-(3, 53);

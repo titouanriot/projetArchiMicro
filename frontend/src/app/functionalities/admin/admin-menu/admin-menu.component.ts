@@ -43,6 +43,22 @@ export class AdminMenuComponent implements OnInit {
     )
   }
 
+  grantAdmin(user : Account){
+    this.adminService.grantAdmin(user).then(
+      res => {
+        if (res) {
+          let index = this.listUsers.findIndex(userList => userList.email == user.email);
+          if (index > -1){
+            this.listUsers[index].is_admin = true;
+            this.listUsersToDisplay = new MatTableDataSource(this.listUsers);
+            this.listUsersToDisplay.paginator = this.paginator;
+            this.listUsersToDisplay.sort = this.sort;
+          }
+        }       
+      }
+    )
+  }
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.listUsersToDisplay.filter = filterValue.trim().toLowerCase();

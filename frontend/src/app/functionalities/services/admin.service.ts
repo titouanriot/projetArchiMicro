@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Account } from 'src/app/models/account';
 import { User } from 'src/app/models/user';
@@ -47,4 +47,24 @@ export class AdminService {
       return this.listUsers;
     }
   }
+
+  async grantAdmin(user : Account){
+    const promise = new Promise<boolean>((resolve, reject) => {
+      let params = {email_user_conected :  encodeURIComponent(this.connectedUser!.email), email_other_user : encodeURIComponent(user.email)};
+      this.http.post<boolean>(this.api_url + this.user_endpoint + "/grant_admin", params).subscribe({
+        next: (res : boolean) => {
+          let index = this.listUsers.findIndex(userTab => userTab.email == user.email);
+          if (index > -1){
+            this.listUsers[index].is_admin = true;
+          }
+          resolve(res);
+        },
+        error : (err : any) => {
+          reject(err);
+        }
+      });
+    });
+    return promise;
+  }
+
 }

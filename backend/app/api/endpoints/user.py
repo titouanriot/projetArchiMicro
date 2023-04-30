@@ -86,7 +86,7 @@ async def get_preferences(email : str, db : Session = Depends(get_db)):
 
 
 @router.post("/grant_admin")
-async def grant_admin(email_user_conected : str, email_other_user : str, db : Session = Depends(get_db)):
+async def grant_admin(email_user_conected : Annotated[str, Body()], email_other_user : Annotated[str, Body()], db : Session = Depends(get_db)):
     mail_user_connected : str = unquote(email_user_conected)
     mail_other_user : str = unquote(email_other_user)
     return service.grant_admin(mail_user_connected, mail_other_user, db)

@@ -228,3 +228,26 @@ class UserService:
             db.rollback()
             print(str(e))
             raise HTTPException(status_code=500, detail="An error occured")
+    
+    def grant_admin(self,mail_user_connected  : str, mail_other_user  : str, db : Session ):
+        try : 
+            if self.checkIfExists(mail_user_connected, db) :
+                if (self.is_admin(mail_user_connected, db)):
+                    if self.checkIfExists(mail_other_user, db) :
+                        other_user_db = db.query(UserSchema).filter_by(email=mail_other_user).first()
+                        if (self.is_admin(mail_other_user, db)):
+                            return {'result': 'User not Granted : Already Admin'}
+                        else :
+                            setattr(other_user_db, 'is_admin', True)
+                            db.commit()
+                            return {'result' : 'User Granted'}
+                    else : 
+                        raise HTTPException(status_code=404, detail="This user does not exist")
+                else : 
+                    raise HTTPException(status_code=403, detail="This user is not authorized to do that")
+            else:
+                raise HTTPException(status_code=404, detail="This user does not exist")
+        except SQLAlchemyError as e:
+            db.rollback()
+            print(str(e))
+            raise HTTPException(status_code=500, detail="An error occured")

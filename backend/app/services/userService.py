@@ -213,3 +213,15 @@ class UserService:
                 raise HTTPException(status_code=404, detail="This user does not exist")
         except SQLAlchemyError as e:
             raise HTTPException(status_code=500, detail="An error occured")
+        
+    def is_admin(self, mail : str, db : Session):
+        try : 
+            if self.checkIfExists(mail, db) :
+                user_db = db.query(UserSchema).filter_by(email=mail).first()
+                return user_db.is_admin
+            else:
+                raise HTTPException(status_code=404, detail="This user does not exist")
+        except SQLAlchemyError as e:
+            db.rollback()
+            print(str(e))
+            raise HTTPException(status_code=500, detail="An error occured")

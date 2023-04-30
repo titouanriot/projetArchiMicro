@@ -68,6 +68,7 @@ export class AuthenticationService {
     localStorage.removeItem('user');
     localStorage.removeItem('isAdmin');
     this.userSubject.next(null);
+    this.isAdminSubject.next(null);
     this.router.navigateByUrl('/connexion');
   }
 

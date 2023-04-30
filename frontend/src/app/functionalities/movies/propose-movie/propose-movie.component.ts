@@ -83,7 +83,6 @@ export class ProposeMovieComponent implements OnInit{
       this.indexSelectedMovie = this.indexSelectedMovie + 1; 
       this.selectedMovie = this.listRecommendedMovies[this.indexSelectedMovie]; 
     }
-    console.log(this.selectedMovie)
   }
     getImage(){
       return this.api_url_tmdb + this.selectedMovie.poster_path;

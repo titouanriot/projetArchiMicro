@@ -13,7 +13,7 @@ class Settings(BaseSettings):
             password=os.getenv('MYSQL_PASSWORD'),
         )
     SECRET_KEY :str = os.getenv('SECRET_KEY')
-    ALGORITHM = os.getenv('ALGORITHM')                   
+    ALGORITHM : str = os.getenv('ALGORITHM')                   
     ACCESS_TOKEN_EXPIRE_MINUTES=60
 
 settings = Settings()

@@ -77,7 +77,6 @@ export class PreferencesComponent implements OnInit {
 
   enregistrerPreferences(){
     let selectedPreferences = this.genres.filter(t => t.selected);
-    console.log(selectedPreferences);
     let list_to_export : Genre[] = [];
     selectedPreferences.forEach(
       object => {
@@ -87,7 +86,6 @@ export class PreferencesComponent implements OnInit {
     let result = this.userService.setPreferences(list_to_export);
     result.then(
       res => {
-        console.log('oh');
         this._router.navigate(["/app/propose-movie"]);
       },
       err => {

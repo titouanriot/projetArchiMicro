@@ -1,16 +1,25 @@
 <div class="card-container">
-    <div *ngFor="let movie of this.watchedMovies">
-        <mat-card class="example-card">
-            <mat-card-header>
-                <div mat-card-avatar class="example-header-image"></div>
-                <mat-card-title>{{movie.title}}</mat-card-title>
-                <mat-card-subtitle>{{movie.original_title}}</mat-card-subtitle>
-            </mat-card-header>
-            <img mat-card-image src="{{getImage(movie)}}">
-            <mat-card-actions>
-                <button mat-button>Bouton 1 </button>
-                <button mat-button>BOuton 2</button>
-            </mat-card-actions>
-        </mat-card>
+    <div *ngIf="watchedMovies.length > 0; else ElseBlock">
+        <div *ngFor="let movie of this.watchedMovies">
+            <mat-card class="example-card">
+                <mat-card-header>
+                    <div mat-card-avatar class="example-header-image"></div>
+                    <mat-card-title>{{movie.title}}</mat-card-title>
+                    <mat-card-subtitle>{{movie.original_title}}</mat-card-subtitle>
+                </mat-card-header>
+                <img mat-card-image src="{{getImage(movie)}}">
+                <mat-card-actions>
+                    <button mat-button>Bouton 1 </button>
+                    <button mat-button>BOuton 2</button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
     </div>
+    <ng-template #ElseBlock>
+        <div>
+            Aucun Films Vus pour le moment... <br>
+            Revenez Plus tard !
+        </div>
+    </ng-template>
+
 </div>

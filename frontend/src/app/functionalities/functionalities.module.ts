@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ProposeMovieComponent, DialogOverviewProposeMovieDialog } from './movies/propose-movie/propose-movie.component';
 import { MenuComponent } from './menu/menu.component';
 import { WatchedComponent } from './watched/watched.component';
+import { AdminMenuComponent } from './admin/admin-menu/admin-menu.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { WatchedComponent } from './watched/watched.component';
         MenuComponent,
         DialogOverviewProposeMovieDialog,
         DialogOverviewListMoviesDialog,
-        WatchedComponent
+        WatchedComponent,
+        AdminMenuComponent
     ],
     exports: [],
     imports : [

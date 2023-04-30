@@ -3,7 +3,7 @@ export interface Movie {
     original_title : string;
     title : string;
     language : LanguageE;
-    category : CategoryE;
+    category : string;
     realease_date : Date;
     runtime : number;
     vote_average : number;

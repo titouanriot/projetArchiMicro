@@ -8,7 +8,7 @@ from sqlalchemy import exists
 from sqlalchemy.exc import SQLAlchemyError
 
 from app.models.genreModel import GenreBase
-from app.models.preferencesModel import PreferenceBase
+from app.models.preferencesModel import PreferencesBase
 from app.models.genreSchema import GenreSchema
 from app.services.genreService import GenreService
 
@@ -23,6 +23,14 @@ class UserService:
         item = db.query(UserSchema).filter_by(email=email).first()
         if item:
             pydantic_user = UserBase.from_orm(item)
+            return pydantic_user
+        return None
+
+    @staticmethod
+    def get_user_withid_by_email(email : str, db : Session):
+        item = db.query(UserSchema).filter_by(email=email).first()
+        if item:
+            pydantic_user = User.from_orm(item)
             return pydantic_user
         return None
 
@@ -174,7 +182,7 @@ class UserService:
                 for genre in genres : 
                     nb_preferences_total = nb_preferences_total + 1
                     if self.genreService.check_if_genre_exist(genre.id_genre, db):
-                        newPreference = PreferenceBase(id_user = user_db.id_user, id_genre = genre.id_genre)
+                        newPreference = PreferencesBase(id_user = user_db.id_user, id_genre = genre.id_genre)
                         newPreferenceSchema = PreferencesSchema(**newPreference.dict())
                         db.add(newPreferenceSchema)
                         nb_preferences_passed = nb_preferences_passed + 1
@@ -204,4 +212,16 @@ class UserService:
             else : 
                 raise HTTPException(status_code=404, detail="This user does not exist")
         except SQLAlchemyError as e:
+            raise HTTPException(status_code=500, detail="An error occured")
+        
+    def is_admin(self, mail : str, db : Session):
+        try : 
+            if self.checkIfExists(mail, db) :
+                user_db = db.query(UserSchema).filter_by(email=mail).first()
+                return user_db.is_admin
+            else:
+                raise HTTPException(status_code=404, detail="This user does not exist")
+        except SQLAlchemyError as e:
+            db.rollback()
+            print(str(e))
             raise HTTPException(status_code=500, detail="An error occured")

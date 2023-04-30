@@ -10,14 +10,19 @@ export class HeaderComponent{
 
   title = 'WatchOurMovie';
   isConnected = false;
+  isAdmin = false;
 
   constructor(
     private authService: AuthenticationService
   ) {
     this.authService.user.subscribe(u => this.isConnected = (u != null))
+    this.authService.isAdmin.subscribe(status => {
+      if (status != null){
+        this.isAdmin = status;
+      }
+    });
   }
 
-  isAdmin = true;
 
   @HostBinding('class') className = 'darkMode';
 

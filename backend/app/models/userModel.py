@@ -19,7 +19,7 @@ class UserLogin(BaseModel):
     password : str
 
 class User(UserBase):
-    id : int
+    id_user : int
     class Config:
         orm_mode = True
 

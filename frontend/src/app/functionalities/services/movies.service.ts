@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CategoryE, LanguageE, Movie } from '../models/movie';
+import { Movie } from '../models/movie';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environment/environment';
 import { User } from 'src/app/models/user';
@@ -12,7 +12,7 @@ import { UserService } from './user.service';
 })
 export class MoviesService {
 
-  listMovies : Movie[] = <Movie[]>[];
+  listRecommendedMovies : Movie[] = <Movie[]>[];
   api_url_tmdb : string = "";
   api_key_tmdb : string = "";
   connectedUser : User | null = null;
@@ -20,75 +20,54 @@ export class MoviesService {
   movie_endpoint = "/movie";
   
   constructor(private http : HttpClient, private authService : AuthenticationService, private userService : UserService) { 
-    this.listMovies = this.DATA;
     this.api_url = environment.backendBaseUrl;
     this.api_url_tmdb = environment.api_url_tmdb;
     this.api_key_tmdb = environment.api_key_tmdb;
     this.authService.user.subscribe(
       u => this.connectedUser = u
     )
+    this.getMovieSelection().then(
+      listMovies => {
+        this.listRecommendedMovies = listMovies;
+      }
+    )
   }
 
-  DATA : Movie[] = [
-    {
-      id_movie : 76600,
-      original_title : "titre original 1",
-      title : "titre 1",
-      language : LanguageE.fr,
-      category : CategoryE.action,
-      realease_date : new Date(),
-      runtime : 180,
-      vote_average : 86,
-      vote_count : 1500,
-      overview : "Un super premier film !",
-      poster_path : "ahMxyHMSJXingQr4yJBMzMU9k42.jpg"
-    },
-    {
-      id_movie : 2,
-      original_title : "titre original 2",
-      title : "titre 2",
-      language : LanguageE.en,
-      category : CategoryE.comedy,
-      realease_date : new Date(),
-      runtime : 160,
-      vote_average : 94,
-      vote_count : 3400,
-      overview : "Arboin le lover!",
-      poster_path : "hYeB9GpFaT7ysabBoGG5rbo9mF4.jpg"
-    }
-  ]
-
-  //récupère nouvele sélectionde films du back
   async getNewBatch(){
-    this.getMovieSelection();
+    this.listRecommendedMovies = [];
+    await this.getMovieSelection().then(
+      movies => {
+        this.listRecommendedMovies = movies;
+      }
+    )
   }
 
   async getMovieSelection(){
-    //to implement
-  }
-
-  //implement 
-  async getMovie(){
-    //to implement
+    if (this.listRecommendedMovies.length == 0) {
+      await this.userService.get_user_id(this.connectedUser!.email).then(
+        user_id => {
+            const promise = new Promise<Movie[]>((resolve, reject) => {
+              this.http.get<Movie[]>(this.api_url + this.movie_endpoint + "/user_recommendations/" + user_id).subscribe({
+                next: (res : Movie[]) => {
+                  this.listRecommendedMovies = res;
+                  resolve(res);
+                },
+                error : (err : any) => {
+                  reject(err);
+                }
+              });
+            });
+            return promise;
+          }
+      )
+      return this.listRecommendedMovies;
+    }
+    else{
+      return this.listRecommendedMovies;
+    }
   }
 
   async addToWatched(movie : Movie, note : number){
-    // const promise = new Promise<boolean>((resolve, reject) => {
-    //   let watched_movie : Watched = {
-    //     id_user : user_id,
-    //     id_movie : movie.id_movie,
-    //     appreciation : note
-    //   }
-    //   this.http.post<boolean>(this.api_url + this.user_endpoint + "/set_preferences",params).subscribe({
-    //     next: (res : boolean) => {
-    //       resolve(res);
-    //     },
-    //     error : (err : any) => {
-    //       reject(err);
-    //     }
-    //   });
-    // });
-    // return promise;
     this.userService.get_user_id(this.connectedUser!.email).then(
       user_id => {
         const promise = new Promise<boolean>((resolve, reject) => {
@@ -111,13 +90,13 @@ export class MoviesService {
   }
 
   //implement save data in BDD
-  async removeFromList(movie_to_delete : Movie){
-    let index = this.listMovies.findIndex(movie => movie == movie_to_delete);
-    if (index >= 0 ){
-      this.listMovies.splice(index, 1);
-    }
-    return (index >= 0);
-  }
+  // async removeFromList(movie_to_delete : Movie){
+  //   let index = this.listRecommendedMovies.findIndex(movie => movie == movie_to_delete);
+  //   if (index >= 0 ){
+  //     this.listRecommendedMovies.splice(index, 1);
+  //   }
+  //   return (index >= 0);
+  // }
 
   async getImageFromTMDB(movie : Movie){
     const promise = new Promise<boolean>((resolve, reject) => {
@@ -132,4 +111,34 @@ export class MoviesService {
     });
     return promise;
   }
+
+
+  // DATA : Movie[] = [
+  //   {
+  //     id_movie : 76600,
+  //     original_title : "titre original 1",
+  //     title : "titre 1",
+  //     language : LanguageE.fr,
+  //     category : CategoryE.action,
+  //     realease_date : new Date(),
+  //     runtime : 180,
+  //     vote_average : 86,
+  //     vote_count : 1500,
+  //     overview : "Un super premier film !",
+  //     poster_path : "ahMxyHMSJXingQr4yJBMzMU9k42.jpg"
+  //   },
+  //   {
+  //     id_movie : 2,
+  //     original_title : "titre original 2",
+  //     title : "titre 2",
+  //     language : LanguageE.en,
+  //     category : CategoryE.comedy,
+  //     realease_date : new Date(),
+  //     runtime : 160,
+  //     vote_average : 94,
+  //     vote_count : 3400,
+  //     overview : "Arboin le lover!",
+  //     poster_path : "hYeB9GpFaT7ysabBoGG5rbo9mF4.jpg"
+  //   }
+  // ]
 }

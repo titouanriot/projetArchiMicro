@@ -1,16 +1,17 @@
 from fastapi import FastAPI
-from app.api.endpoints import user, auth, genre, movie
+from app.api.endpoints import user, auth, genre, movie, group
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
 from app.database import engine
-from app.models import userSchema, preferencesSchema, movieSchema, hasGenreSchema, genreSchema, watchedSchema
+from app.models import userSchema, preferencesSchema, movieSchema, hasGenreSchema, genreSchema, watchedSchema, groupSchema
 from app.database import SessionLocal
 from app.services.movieService import MovieService
 app = FastAPI()
 
 app.include_router(user.router)
 app.include_router(auth.router)
+app.include_router(group.router)
 app.include_router(genre.router)
 app.include_router(movie.router)
 
@@ -20,6 +21,8 @@ movieSchema.Base.metadata.create_all(bind=engine)
 hasGenreSchema.Base.metadata.create_all(bind=engine)
 genreSchema.Base.metadata.create_all(bind=engine)
 watchedSchema.Base.metadata.create_all(bind=engine)
+groupSchema.Base.metadata.create_all(bind=engine)
+
 
 origins = [
     "http://localhost",
@@ -40,8 +43,9 @@ def get_db():
         yield db
     finally :
         db.close()
+
 movieService = MovieService()
-movieService.load_movies(next(get_db()), 40)
+movieService.load_movies(next(get_db()), 100)
 
 @app.get("/")
 async def root():

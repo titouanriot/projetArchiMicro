@@ -71,4 +71,4 @@ def recommend_movies(seen_movie_lists: List[List[int]], favorite_genre_lists: Li
     movies_sorted_by_weight: DataFrame = sort_movies_by_descending_weight(weighted_movies_df)
     movies_sorted_by_popularity: DataFrame = sort_movies_by_descending_popularity(movies_sorted_by_weight)
 
-    return movies_sorted_by_popularity
+    return movies_sorted_by_popularity['id'].tolist()

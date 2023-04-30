@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, HostBinding, Inject, OnInit } from '@angular/core';
 import { Movie } from '../../models/movie';
 import { MoviesService } from '../../services/movies.service';
 import { environment } from 'src/environment/environment';
@@ -15,7 +15,9 @@ export interface DialogData {
 })
 export class ProposeMovieComponent implements OnInit{
 
-  listMovies: Movie[] = <Movie[]>[];
+  @HostBinding('class') className = 'darkMode';
+
+  listRecommendedMovies: Movie[] = <Movie[]>[];
   selectedMovie! : Movie;
   indexSelectedMovie = 0;
   api_url_tmdb = "";
@@ -24,8 +26,10 @@ export class ProposeMovieComponent implements OnInit{
 
   ngOnInit(): void {
     this.api_url_tmdb = environment.api_url_tmdb;
-    this.listMovies = this.moviesService.listMovies;
-    this.selectedMovie = this.listMovies[0];
+    this.listRecommendedMovies = this.moviesService.listRecommendedMovies;
+    if (this.listRecommendedMovies.length > 0 ){
+      this.selectedMovie = this.listRecommendedMovies[0];
+    }
   }
 
   addToWatched(): void {
@@ -34,42 +38,50 @@ export class ProposeMovieComponent implements OnInit{
     });
 
     dialogRef.afterClosed().subscribe(note => {
-      this.moviesService.addToWatched(this.selectedMovie, note);
+      if (note){
+        this.moviesService.addToWatched(this.selectedMovie, note);
+      }
     });
   }
 
+  // removeFromList(){
+  //   let movie_to_delete = this.selectedMovie;
+  //   this.moviesService.removeFromList(movie_to_delete);
+  //   if (this.indexSelectedMovie < this.listRecommendedMovies.length -1 ){
+  //     this.next();
+  //   }
+  //   else if (this.indexSelectedMovie > 0) {
+  //     this.back()
+  //   }
+  //   else if (this.listRecommendedMovies.length == 1){
+  //     this.indexSelectedMovie = 0;
+  //     this.selectedMovie = this.listRecommendedMovies[0];
+  //   }
+  // }
 
-  removeFromList(){
-    let movie_to_delete = this.selectedMovie;
-    this.moviesService.removeFromList(movie_to_delete);
-    if (this.indexSelectedMovie < this.listMovies.length -1 ){
-      this.next();
-    }
-    else if (this.indexSelectedMovie > 0) {
-      this.back()
-    }
-    else if (this.listMovies.length == 1){
-      this.indexSelectedMovie = 0;
-      this.selectedMovie = this.listMovies[0];
-    }
-  }
-
-  getNewBatch(){
-    console.log("get new batch");
-    this.indexSelectedMovie = 0;
+  async getNewBatch(){
+    await this.moviesService.getNewBatch().then(
+      _ => {
+        this.listRecommendedMovies = this.moviesService.listRecommendedMovies;
+        if (this.listRecommendedMovies.length > 0 ){
+          this.selectedMovie = this.listRecommendedMovies[0];
+          this.indexSelectedMovie = 0;
+        }
+      }
+    )
   }
 
   back(){
     if (this.indexSelectedMovie > 0){
       this.indexSelectedMovie = this.indexSelectedMovie - 1;
-      this.selectedMovie = this.listMovies[this.indexSelectedMovie]; 
+      this.selectedMovie = this.listRecommendedMovies[this.indexSelectedMovie]; 
     }
   }
 
   next(){
-    if (this.indexSelectedMovie < this.listMovies.length -1){
+    if (this.indexSelectedMovie < this.listRecommendedMovies.length -1){
       this.indexSelectedMovie = this.indexSelectedMovie + 1; 
-      this.selectedMovie = this.listMovies[this.indexSelectedMovie]; 
+      this.selectedMovie = this.listRecommendedMovies[this.indexSelectedMovie]; 
     }
   }
     getImage(){

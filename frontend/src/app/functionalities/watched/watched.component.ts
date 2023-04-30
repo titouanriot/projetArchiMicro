@@ -63,16 +63,19 @@ export class WatchedComponent {
           console.log("id_user not found in remove_watched_movie")
         }
         
+      let watched_movie : Watched = {
+        id_user : this.user_id,
+        id_movie : movie_watched.id_movie,
+        appreciation : -1
       }
-    )
-    let watched_movie : Watched = {
-      id_user : this.user_id,
-      id_movie : movie_watched.id_movie,
-      appreciation : -1
-    }
-    this.movieService.remove_watched_movie(watched_movie)
-    const index = this.watchedMovies.findIndex(watched => watched.id_movie = watched_movie.id_movie)
-    this.watchedMovies.splice(index,1)
+      this.movieService.remove_watched_movie(watched_movie).subscribe({
+        next: value => {
+          console.log('watched movie removed')
+        }
+      })
+      const index = this.watchedMovies.findIndex(watched => watched.id_movie = watched_movie.id_movie)
+      this.watchedMovies.splice(index,1)
+    })
   } 
 
 

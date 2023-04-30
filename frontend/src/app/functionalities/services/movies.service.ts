@@ -91,9 +91,9 @@ export class MoviesService {
       });
   }
 
-  async remove_watched_movie(watched_movie : Watched){
+  remove_watched_movie(watched_movie : Watched){
     
-    this.http.delete<boolean>(this.api_url + this.movie_endpoint + "/remove_watched_movie",{body : watched_movie})
+    return this.http.delete<boolean>(this.api_url + this.movie_endpoint + "/remove_watched_movie",{body : watched_movie})
   }
 
  

@@ -8,6 +8,9 @@ import { HasPreferenciesGuard } from './guards/has-preferencies.guard';
 import { ProposeMovieComponent } from './movies/propose-movie/propose-movie.component';
 import { MenuComponent } from './menu/menu.component';
 import { WatchedComponent } from './watched/watched.component';
+import { GroupGestionComponent } from './groups/group-gestion/group-gestion.component';
+import { GroupDetailComponent } from './groups/group-detail/group-detail.component';
+import { GroupesComponent } from './groups/groupes/groupes.component';
 
 const routes : Routes = [
     {path : '', component : ContainerComponent, children:[
@@ -16,6 +19,9 @@ const routes : Routes = [
         {path: "menu", component : MenuComponent},
         {path: "films-vus",component: WatchedComponent},
         {path : "list-movies", component : ListMoviesComponent, canActivate : [HasPreferenciesGuard]},
+        {path: "mes-groupes", component: GroupGestionComponent},
+        {path: "groups", component: GroupesComponent},
+        {path: "mes-groupes/:groupId", component: GroupDetailComponent},
         {path : '', redirectTo: '/app/propose-movie', pathMatch: 'full'}
     ]}
 ]

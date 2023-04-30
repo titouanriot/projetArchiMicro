@@ -9,6 +9,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { ProposeMovieComponent, DialogOverviewProposeMovieDialog } from './movies/propose-movie/propose-movie.component';
 import { MenuComponent } from './menu/menu.component';
 import { WatchedComponent } from './watched/watched.component';
+import { GroupesComponent } from './groups/groupes/groupes.component';
+import { GroupGestionComponent } from './groups/group-gestion/group-gestion.component';
+import { GroupDetailComponent } from './groups/group-detail/group-detail.component';
 
 
 @NgModule({
@@ -19,7 +22,10 @@ import { WatchedComponent } from './watched/watched.component';
         MenuComponent,
         DialogOverviewProposeMovieDialog,
         DialogOverviewListMoviesDialog,
-        WatchedComponent
+        WatchedComponent,
+        GroupesComponent,
+        GroupGestionComponent,
+        GroupDetailComponent
     ],
     exports: [],
     imports : [

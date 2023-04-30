@@ -1,0 +1,25 @@
+<h1>Mes groupes</h1>
+
+<section>
+<table mat-table [dataSource]="mygroups">
+
+    <ng-container matColumnDef="groupName">
+        <th mat-header-cell *matHeaderCellDef>Nom du groupe</th>
+        <td mat-cell *matCellDef="let group" class="hover" (click)="display_details(group.id_group)">{{group.group_name}}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+</section>
+<section>
+    <form (ngSubmit)="addGroup()">
+        <p>
+            <mat-form-field>
+                <input name="groupName" matInput [(ngModel)]="groupName" placeholder="Nom du groupe">
+            </mat-form-field>
+            <button mat-flat-button type="submit">Ajouter</button>
+            <p *ngIf="error" class="error">Le groupe existe déjà</p>
+        <!-- </p> -->
+    </form>
+</section>

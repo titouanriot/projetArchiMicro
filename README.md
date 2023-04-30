@@ -53,8 +53,18 @@ SECRET_KEY=[key]
 
 ALGORITHM=[algorithm]
 
+
+EXAMPLES FOR SECRET_KEY : SECRET_KEY=MYSUPERKEY
+EXAMOKE FOR ALGORITHM : ALGORITHM=HS256
+
 To Launch it, go on the backend folder and execute `uvicorn app.main:app --port 8000 --reload` (if you do not have the packages installed, you can start the .venv).
 Accessible at `http://localhost:8000`.
+
+TIPS :
+
+Some users are created by default when creating the databse container, to access to an admin profile you can use the following credentials : 
+email : bob.smith@example.com
+password : letmein123
 
 
 ### Database
